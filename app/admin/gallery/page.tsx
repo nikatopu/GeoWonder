@@ -1,6 +1,6 @@
 // app/admin/gallery/page.tsx
 import prisma from "@/lib/prisma";
-import { GalleryManager } from "./GalleryManager";
+import { GalleryManager } from "../../../components/organisms/GalleryManager";
 
 export const revalidate = 0; // Make page dynamic
 

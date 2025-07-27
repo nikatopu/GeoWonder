@@ -1,7 +1,7 @@
 // app/admin/page.tsx
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { ArticleActions } from "./ArticleActions";
+import { ArticleActions } from "../../components/organisms/ArticleActions";
 import { TArticle } from "@/lib/types";
 
 export const revalidate = 0; // Make sure the page is always dynamic

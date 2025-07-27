@@ -1,7 +1,7 @@
 // app/gallery/page.tsx
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
-import { GalleryClientLayout } from "./GalleryClientLayout";
+import { GalleryClientLayout } from "../../components/organisms/GalleryClientLayout";
 
 export const metadata: Metadata = {
   title: "Photo Gallery",

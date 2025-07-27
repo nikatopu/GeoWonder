@@ -1,5 +1,5 @@
 // app/admin/new-article/page.tsx
-import { ArticleForm } from "../ArticleForm";
+import { ArticleForm } from "../../../components/organisms/ArticleForm";
 
 export default function NewArticlePage() {
   return (

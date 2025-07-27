@@ -1,5 +1,5 @@
 // app/admin/articles/edit/[id]/page.tsx
-import { ArticleForm } from "@/app/admin/ArticleForm";
+import { ArticleForm } from "@/components/organisms/ArticleForm";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
