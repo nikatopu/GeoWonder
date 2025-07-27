@@ -1,11 +1,16 @@
-// app/blog/[slug]/page.tsx
 import prisma from "@/lib/prisma";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import Image from "next/image"; // For optimized images in markdown
+import Image from "next/image";
+
+type Props = {
+  params: {
+    slug: string;
+  };
+};
 
 // Generate static pages for all articles at build time
 export async function generateStaticParams() {
@@ -15,12 +20,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate dynamic metadata for SEO
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
@@ -31,16 +31,15 @@ export async function generateMetadata({
 
   return {
     title: article.title,
-    // Create a description from the first 160 chars of content
-    description: article.content.substring(0, 160).trim() + "...",
+    description:
+      article.content
+        .substring(0, 160)
+        .trim()
+        .replace(/<[^>]*>?/gm, "") + "...", // Strips HTML for clean description
   };
 }
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function ArticlePage({ params }: Props) {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
@@ -51,17 +50,15 @@ export default async function ArticlePage({
 
   return (
     <article className="prose">
-      {" "}
-      {/* Add a class for potential styling */}
       <h1>{article.title}</h1>
       <p style={{ color: "#666", marginTop: "-1rem", marginBottom: "2rem" }}>
         Published on: {new Date(article.createdAt).toLocaleDateString()}
       </p>
+
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
         components={{
-          // Use next/image for optimized images
           img: (props) => (
             <Image
               src={typeof props.src === "string" ? props.src : ""}
@@ -76,7 +73,6 @@ export default async function ArticlePage({
               }}
             />
           ),
-          // Custom styling for other elements if needed
           h2: ({ node, ...props }) => (
             <h2 style={{ marginTop: "2.5rem" }} {...props} />
           ),
