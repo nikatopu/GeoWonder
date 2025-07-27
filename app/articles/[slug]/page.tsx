@@ -5,7 +5,6 @@ import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 import { TArticle } from "@/lib/types";
 
-// Server-only DOMPurify instance
 const window = new JSDOM("").window;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DOMPurify = createDOMPurify(window as any);
@@ -23,10 +22,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   const article = await prisma.article.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   });
 
   if (!article) return { title: "Not Found" };
@@ -42,13 +42,16 @@ export async function generateMetadata({
   };
 }
 
+/* -------- Article Page Component -------- */
 export default async function ArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+
   const article = await prisma.article.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   });
 
   if (!article) {
@@ -58,7 +61,8 @@ export default async function ArticlePage({
   const sanitizedContent = DOMPurify.sanitize(article.content);
 
   return (
-    <article className="prose">
+    <article>
+      <h1>{article.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
     </article>
   );
