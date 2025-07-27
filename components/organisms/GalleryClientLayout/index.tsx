@@ -1,4 +1,3 @@
-// app/gallery/GalleryClientLayout.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,9 +5,15 @@ import type { GalleryImage } from "@prisma/client";
 import Image from "next/image";
 import Masonry from "react-masonry-css";
 import { useInView } from "react-intersection-observer";
-import Paragraph from "@/components/atoms/Paragraph";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css"; // Don't forget to import the styles
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faArrowRight,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
-// Define the props our component receives
 type GalleryClientLayoutProps = {
   initialImages: GalleryImage[];
 };
@@ -23,10 +28,13 @@ export function GalleryClientLayout({
   const [hasMore, setHasMore] = useState(
     initialImages.length === IMAGES_PER_PAGE
   );
-  const { ref, inView } = useInView(); // The hook that detects when the loader is visible
+  const { ref, inView } = useInView();
+
+  // --- Step 2: Add state for the lightbox ---
+  // We use the image's index. -1 means the lightbox is closed.
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   const loadMoreImages = async () => {
-    // Increment the page number and fetch the next set of images
     const nextPage = page + 1;
     const response = await fetch(`/api/gallery?page=${nextPage}`);
     const newImages: GalleryImage[] = await response.json();
@@ -35,28 +43,31 @@ export function GalleryClientLayout({
       setPage(nextPage);
       setImages((prevImages) => [...prevImages, ...newImages]);
     }
-
-    // If we receive fewer images than our page limit, we know we've reached the end
     if (newImages.length < IMAGES_PER_PAGE) {
       setHasMore(false);
     }
   };
 
-  // This `useEffect` triggers the `loadMoreImages` function
-  // whenever the `ref` element (our loader) comes into view.
   useEffect(() => {
     if (inView && hasMore) {
       loadMoreImages();
     }
   }, [inView, hasMore]);
 
-  // Define responsive breakpoints for the masonry grid
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
     700: 2,
     500: 1,
   };
+
+  // The lightbox needs a specific array format ({ src: '...' })
+  const slides = images.map((image) => ({
+    src: image.url,
+    alt: image.altText,
+    width: 2000, // Provide a high-res width for the lightbox view
+    height: 2000,
+  }));
 
   return (
     <div>
@@ -65,31 +76,49 @@ export function GalleryClientLayout({
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        {images?.map((image) => (
-          <div key={image.id} style={{ marginBottom: "1rem" }}>
+        {images.map((image, index) => (
+          // --- Step 3: Add onClick to open the lightbox ---
+          <div
+            key={image.id}
+            style={{ marginBottom: "1rem", cursor: "pointer" }}
+            onClick={() => setLightboxIndex(index)} // Open lightbox at the clicked image's index
+          >
             <Image
               src={image.url}
               alt={image.altText}
               width={500}
               height={500}
               style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-              // Priority for the first few images to improve LCP
-              priority={images.indexOf(image) < 4}
+              priority={index < 4}
             />
           </div>
         ))}
       </Masonry>
 
-      {/* This is the trigger element. It's invisible but we track when it's on screen. */}
+      {/* This is the trigger element for infinite scroll */}
       {hasMore ? (
         <div ref={ref} style={{ textAlign: "center", padding: "2rem" }}>
-          <Paragraph>Loading more...</Paragraph>
+          <p>Loading more...</p>
         </div>
       ) : (
         <div style={{ textAlign: "center", padding: "2rem" }}>
-          <Paragraph>You've reached the end of the gallery.</Paragraph>
+          <p>You've reached the end of the gallery.</p>
         </div>
       )}
+
+      {/* --- Step 4: Add the Lightbox component --- */}
+      <Lightbox
+        open={lightboxIndex >= 0}
+        index={lightboxIndex}
+        close={() => setLightboxIndex(-1)}
+        slides={slides}
+        // This is where we customize the icons!
+        render={{
+          iconPrev: () => <FontAwesomeIcon icon={faArrowLeft} size="2x" />,
+          iconNext: () => <FontAwesomeIcon icon={faArrowRight} size="2x" />,
+          iconClose: () => <FontAwesomeIcon icon={faXmark} size="2x" />,
+        }}
+      />
     </div>
   );
 }
