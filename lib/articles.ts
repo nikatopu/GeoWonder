@@ -36,11 +36,11 @@ const articles: Article[] = [
 ];
 
 // Function to get all articles (for the blog listing page)
-export const getArticles = (): Article[] => {
+export const getArticles = async (): Promise<Article[]> => {
   return articles;
 };
 
 // Function to get a single article by its slug (for the individual article page)
-export const getArticleBySlug = (slug: string): Article | undefined => {
+export const getArticleBySlug = async (slug: string): Promise<Article | undefined> => {
   return articles.find((article) => article.slug === slug);
 };

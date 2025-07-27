@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 // This generates a page for each article at build time
 export async function generateStaticParams() {
-  const articles = getArticles();
+  const articles = await getArticles();
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const article = getArticleBySlug(params.slug);
+  const article = await getArticleBySlug(params.slug);
 
   if (!article) {
     return {
@@ -36,8 +36,8 @@ export async function generateMetadata({
   };
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  const article = await getArticleBySlug(params.slug);
 
   // If no article is found for the slug, show a 404 page
   if (!article) {
