@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     "Articles and guides about traveling in Georgia, from local culture to hidden gems.",
 };
 
-export default function BlogPage() {
-  const articles = getArticles();
+export default async function BlogPage() {
+  const articles = await getArticles();
 
   return (
     <div>
