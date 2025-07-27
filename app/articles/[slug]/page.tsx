@@ -1,18 +1,21 @@
 import prisma from "@/lib/prisma";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import Image from "next/image";
+import createDOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
 
-type Props = {
-  params: {
-    slug: string;
-  };
+// This is the most robust way to type page props in a dynamic route.
+// It explicitly defines the shape Next.js expects.
+type ArticlePageProps = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// Generate static pages for all articles at build time
+// Create a single, server-side instance of the sanitizer
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window as any);
+
+// Generate static pages for all articles at build time. This part is correct.
 export async function generateStaticParams() {
   const articles = await prisma.article.findMany({ select: { slug: true } });
   return articles.map((article) => ({
@@ -20,7 +23,10 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+// Generate dynamic metadata for SEO using the robust props type.
+export async function generateMetadata({
+  params,
+}: ArticlePageProps): Promise<Metadata> {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
@@ -29,17 +35,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Article Not Found" };
   }
 
+  // Create a clean description for metadata by stripping HTML tags
+  const description = article.content
+    .replace(/<[^>]*>?/gm, "")
+    .substring(0, 160);
+
   return {
     title: article.title,
-    description:
-      article.content
-        .substring(0, 160)
-        .trim()
-        .replace(/<[^>]*>?/gm, "") + "...", // Strips HTML for clean description
+    description: description.trim() + "...",
   };
 }
 
-export default async function ArticlePage({ params }: Props) {
+// The actual article page component, also using the robust props type.
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
@@ -48,38 +56,16 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
+  // Sanitize the HTML content before rendering it. This is a crucial security step.
+  const sanitizedContent = DOMPurify.sanitize(article.content);
+
   return (
     <article className="prose">
-      <h1>{article.title}</h1>
-      <p style={{ color: "#666", marginTop: "-1rem", marginBottom: "2rem" }}>
-        Published on: {new Date(article.createdAt).toLocaleDateString()}
-      </p>
-
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
-        components={{
-          img: (props) => (
-            <Image
-              src={typeof props.src === "string" ? props.src : ""}
-              alt={props.alt || ""}
-              width={700}
-              height={400}
-              style={{
-                objectFit: "cover",
-                width: "100%",
-                height: "auto",
-                borderRadius: "8px",
-              }}
-            />
-          ),
-          h2: ({ node, ...props }) => (
-            <h2 style={{ marginTop: "2.5rem" }} {...props} />
-          ),
-        }}
-      >
-        {article.content}
-      </ReactMarkdown>
+      {/* 
+        This renders the HTML string directly from your database.
+        It uses the sanitized version for security.
+      */}
+      <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
     </article>
   );
 }
