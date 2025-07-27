@@ -13,6 +13,8 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
     "@prisma/client": "^6.12.0",
+    "@tinymce/tinymce-react": "^6.2.1",
+    "@vercel/blob": "^1.1.1",
     "bcryptjs": "^3.0.2",
     "dompurify": "^3.2.6",
     "jose": "^6.0.12",
@@ -26,6 +28,7 @@
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "sass": "^1.89.2",
+    "slugify": "^1.6.6",
     "zod": "^4.0.10"
   },
   "devDependencies": {

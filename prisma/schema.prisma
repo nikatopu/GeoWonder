@@ -33,3 +33,12 @@ model User {
 
   @@map("users")
 }
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String   // URL of the image on Vercel Blob
+  altText   String
+  createdAt DateTime @default(now())
+
+  @@map("gallery_images")
+}

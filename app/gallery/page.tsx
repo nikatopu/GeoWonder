@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import prisma from "@/lib/prisma";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
@@ -6,13 +8,20 @@ export const metadata: Metadata = {
     "View stunning photos of Georgian landscapes, from the Caucasus Mountains to the Black Sea coast.",
 };
 
-export default function GalleryPage() {
+export const revalidate = 3600; // Revalidate every hour
+
+export default async function GalleryPage() {
+  const images = await prisma.galleryImage.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <div>
       <h1>Our Gallery</h1>
       <p>A collection of beautiful moments captured in Georgia.</p>
 
-      {/* Placeholder for images. You would map over your image data here. */}
       <div
         style={{
           display: "grid",
@@ -20,42 +29,22 @@ export default function GalleryPage() {
           gap: "1rem",
         }}
       >
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            textAlign: "center",
-          }}
-        >
-          [Placeholder for Image of Kazbegi]
-        </div>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            textAlign: "center",
-          }}
-        >
-          [Placeholder for Image of Svaneti]
-        </div>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            textAlign: "center",
-          }}
-        >
-          [Placeholder for Image of Tbilisi]
-        </div>
-        <div
-          style={{
-            border: "1px solid #ccc",
-            padding: "1rem",
-            textAlign: "center",
-          }}
-        >
-          [Placeholder for Image of a Vineyard]
-        </div>
+        {images.map((image) => (
+          <div key={image.id}>
+            <Image
+              src={image.url}
+              alt={image.altText}
+              width={500}
+              height={500}
+              style={{
+                objectFit: "cover",
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
