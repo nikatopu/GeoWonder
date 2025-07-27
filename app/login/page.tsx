@@ -4,12 +4,18 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+type LoginFormInputs = {
+  username: string;
+  password: string;
+};
+
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<LoginFormInputs>();
+
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -18,6 +24,7 @@ export default function LoginPage() {
 
     if (response.ok) {
       router.push("/admin/new-article");
+      router.refresh();
     } else {
       setError("Invalid username or password.");
     }
