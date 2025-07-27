@@ -1,14 +1,13 @@
+// app/api/articles/[id]/route.ts
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import slugify from "slugify";
 
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
+export async function PUT(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
+  const { id } = context.params; // Destructure params inside the function
 
-export async function PUT(req: NextRequest, { params }: RouteContext) {
   try {
     const { title, content } = await req.json();
 
@@ -16,9 +15,8 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // The logic inside the function remains the same.
     const updatedArticle = await prisma.article.update({
-      where: { id: params.id },
+      where: { id: id }, // Use the destructured id
       data: { title, content },
     });
 
@@ -32,11 +30,15 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
   }
 }
 
-// DELETE - Delete article
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
+  const { id } = context.params; // Destructure params inside the function
+
   try {
     await prisma.article.delete({
-      where: { id: params.id },
+      where: { id: id }, // Use the destructured id
     });
     return new NextResponse(null, { status: 204 });
   } catch (error) {
