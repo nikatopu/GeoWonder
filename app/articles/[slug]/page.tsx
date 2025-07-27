@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import createDOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
+import {JSDOM} from "jsdom";
 
 // This is the most robust way to type page props in a dynamic route.
 // It explicitly defines the shape Next.js expects.
