@@ -5,12 +5,7 @@ import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 import { TArticle } from "@/lib/types";
 
-// This is the most explicit and correct way to type these props.
-type ArticlePageProps = {
-  params: { slug: string };
-};
-
-// Create a single, server-side instance of the sanitizer
+// Server-only DOMPurify instance
 const window = new JSDOM("").window;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DOMPurify = createDOMPurify(window as any);
@@ -19,6 +14,7 @@ export async function generateStaticParams() {
   const articles: TArticle[] = await prisma.article.findMany({
     select: { slug: true },
   });
+
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -26,25 +22,31 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: ArticlePageProps): Promise<Metadata> {
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
 
-  if (!article) {
-    return { title: "Article Not Found" };
-  }
+  if (!article) return { title: "Not Found" };
 
   const description = article.content
     .replace(/<[^>]*>?/gm, "")
-    .substring(0, 160);
+    .substring(0, 160)
+    .trim();
+
   return {
     title: article.title,
-    description: description.trim() + "...",
+    description: description + "...",
   };
 }
 
-export default async function ArticlePage({ params }: Awaited<ArticlePageProps>) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
@@ -54,6 +56,7 @@ export default async function ArticlePage({ params }: Awaited<ArticlePageProps>)
   }
 
   const sanitizedContent = DOMPurify.sanitize(article.content);
+
   return (
     <article className="prose">
       <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
