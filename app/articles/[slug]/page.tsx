@@ -10,7 +10,7 @@ const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window as any);
 
 export async function generateStaticParams() {
-  const articles: TArticle[] = await prisma.article.findMany({
+  const articles: { slug: string }[] = await prisma.article.findMany({
     select: { slug: true },
   });
 
