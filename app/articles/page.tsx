@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import { TArticle } from "@/lib/types";
+import type { Article } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: "Our Blog",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function BlogPage() {
-  const articles: TArticle[] = await prisma.article.findMany({
+  const articles: Article[] = await prisma.article.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -26,16 +26,21 @@ export default async function BlogPage() {
       <p>Tips, stories, and guides to help you plan your Georgian adventure.</p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-        {articles.map((article) => (
-          <div key={article.id}>
-            <h2>
-              <Link href={`/articles/${article.slug}`}>{article.title}</Link>
-            </h2>
-            {/* We could add a short description/excerpt field to the model later */}
-            <p>{article.content.substring(0, 150)}...</p>
-            <Link href={`/articles/${article.slug}`}>Read more →</Link>
-          </div>
-        ))}
+        {articles.map((article) => {
+          const plainTextContent = article.content.replace(/<[^>]*>?/gm, "");
+          const excerpt = plainTextContent.substring(0, 150) + "...";
+
+          return (
+            <div key={article.id}>
+              <h2>
+                <Link href={`/articles/${article.slug}`}>{article.title}</Link>
+              </h2>
+              {/* 3. Render the clean excerpt. */}
+              <p>{excerpt}</p>
+              <Link href={`/articles/${article.slug}`}>Read more →</Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

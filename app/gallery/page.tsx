@@ -1,6 +1,7 @@
+// app/gallery/page.tsx
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
-import Image from "next/image";
+import { GalleryClientLayout } from "./GalleryClientLayout";
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
@@ -8,10 +9,12 @@ export const metadata: Metadata = {
     "View stunning photos of Georgian landscapes, from the Caucasus Mountains to the Black Sea coast.",
 };
 
-export const revalidate = 3600; // Revalidate every hour
+const IMAGES_PER_PAGE = 12;
 
 export default async function GalleryPage() {
-  const images = await prisma.galleryImage.findMany({
+  // Fetch only the initial set of images on the server.
+  const initialImages = await prisma.galleryImage.findMany({
+    take: IMAGES_PER_PAGE,
     orderBy: {
       createdAt: "desc",
     },
@@ -22,30 +25,8 @@ export default async function GalleryPage() {
       <h1>Our Gallery</h1>
       <p>A collection of beautiful moments captured in Georgia.</p>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-          gap: "1rem",
-        }}
-      >
-        {images.map((image) => (
-          <div key={image.id}>
-            <Image
-              src={image.url}
-              alt={image.altText}
-              width={500}
-              height={500}
-              style={{
-                objectFit: "cover",
-                width: "100%",
-                height: "auto",
-                borderRadius: "8px",
-              }}
-            />
-          </div>
-        ))}
-      </div>
+      {/* Pass the initial images to the client component, which will handle infinite scroll */}
+      <GalleryClientLayout initialImages={initialImages} />
     </div>
   );
 }

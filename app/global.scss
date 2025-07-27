@@ -56,3 +56,23 @@ a:hover {
   background-color: #005bb5;
   text-decoration: none;
 }
+
+/* Masonry Layout Styles */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -20px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 20px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { 
+  background: #f9f9f9; /* A light background for each item */
+  margin-bottom: 20px;
+  border-radius: 8px;
+}

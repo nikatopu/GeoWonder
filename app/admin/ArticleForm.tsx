@@ -17,8 +17,15 @@ const articleSchema = z.object({
 
 type ArticleFormData = z.infer<typeof articleSchema>;
 
+// --- FIX #1: Define a specific type for TinyMCE's blobInfo object ---
+// This tells TypeScript what the object looks like, resolving the `any` error.
+interface BlobInfo {
+  blob: () => File;
+  filename: () => string;
+}
+
 type ArticleFormProps = {
-  initialData?: Article | null; // Optional initial data for editing
+  initialData?: Article | null;
 };
 
 export function ArticleForm({ initialData }: ArticleFormProps) {
@@ -53,9 +60,12 @@ export function ArticleForm({ initialData }: ArticleFormProps) {
 
       if (!response.ok) throw new Error("Failed to save article");
 
-      const result = await response.json();
+      // --- FIX #2: Removed the unused 'result' variable ---
+      // We don't need to parse the JSON response if we're not using it.
+      // await response.json();
+
       alert(`Article ${initialData ? "updated" : "created"} successfully!`);
-      router.push(`/admin`); // Redirect to dashboard
+      router.push(`/admin`);
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -67,8 +77,10 @@ export function ArticleForm({ initialData }: ArticleFormProps) {
 
   // Handler for image uploads within TinyMCE
   const imageUploadHandler = async (
-    blobInfo: any,
-    progress: (percent: number) => void
+    // Use the specific BlobInfo type instead of 'any'
+    blobInfo: BlobInfo,
+    // --- FIX #3: Prefix 'progress' with an underscore to mark it as intentionally unused ---
+    _progress: (percent: number) => void
   ): Promise<string> => {
     const file = blobInfo.blob();
     const response = await fetch(`/api/upload?filename=${file.name}`, {
@@ -81,7 +93,7 @@ export function ArticleForm({ initialData }: ArticleFormProps) {
     }
 
     const blobResult = await response.json();
-    return blobResult.url; // Return the public URL of the uploaded image
+    return blobResult.url;
   };
 
   const inputStyle = {
