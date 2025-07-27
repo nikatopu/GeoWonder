@@ -1,12 +1,11 @@
-// app/api/articles/[id]/route.ts
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params; // Destructure params inside the function
+  const { id } = params;
 
   try {
     const { title, content } = await req.json();
@@ -16,7 +15,7 @@ export async function PUT(
     }
 
     const updatedArticle = await prisma.article.update({
-      where: { id: id }, // Use the destructured id
+      where: { id },
       data: { title, content },
     });
 
@@ -32,14 +31,15 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params; // Destructure params inside the function
+  const { id } = params;
 
   try {
     await prisma.article.delete({
-      where: { id: id }, // Use the destructured id
+      where: { id },
     });
+
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("DELETE Error:", error);

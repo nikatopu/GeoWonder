@@ -30,6 +30,7 @@ export default function Header() {
       </Link>
       <nav style={navStyles}>
         <Link href="/">Home</Link>
+        <Link href="/tours">Tours</Link>
         <Link href="/gallery">Gallery</Link>
         <Link href="/articles">Articles</Link>
         <Link href="/contact">Contact</Link>

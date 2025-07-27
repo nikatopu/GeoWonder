@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import styles from "./Heading.module.scss";
+import styles from "./Title.module.scss";
 
 type HeadingProps = {
   level: 1 | 2 | 3 | 4 | 5 | 6;
