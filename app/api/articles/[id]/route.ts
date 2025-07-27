@@ -1,17 +1,14 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import slugify from "slugify";
-
-type Params = {
-  params: {
-    id: string;
-  };
-};
 
 // PUT - Update article
-export async function PUT(req: NextRequest, { params }: Params) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const { title, content } = await req.json();
+
     if (!title || !content) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
@@ -31,7 +28,10 @@ export async function PUT(req: NextRequest, { params }: Params) {
 }
 
 // DELETE - Delete article
-export async function DELETE(req: NextRequest, { params }: Params) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     await prisma.article.delete({
       where: { id: params.id },
