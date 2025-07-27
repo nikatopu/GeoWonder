@@ -4,16 +4,16 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
 type EditArticlePageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export default async function EditArticlePage({
   params,
 }: EditArticlePageProps) {
   const article = await prisma.article.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
   });
 
   if (!article) {
