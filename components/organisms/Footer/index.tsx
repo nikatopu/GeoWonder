@@ -1,3 +1,4 @@
+import Paragraph from "@/components/atoms/Paragraph";
 import React from "react";
 
 const footerStyles: React.CSSProperties = {
@@ -11,7 +12,7 @@ const footerStyles: React.CSSProperties = {
 export default function Footer() {
   return (
     <footer style={footerStyles}>
-      <p>© {new Date().getFullYear()} GeoWonder. All rights reserved.</p>
+      <Paragraph>© {new Date().getFullYear()} GeoWonder. All rights reserved.</Paragraph>
     </footer>
   );
 }

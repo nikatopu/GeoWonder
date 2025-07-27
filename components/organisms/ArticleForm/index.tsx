@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Article } from "@prisma/client";
+import Paragraph from "@/components/atoms/Paragraph";
 
 // Zod schema for validation
 const articleSchema = z.object({
@@ -110,7 +111,7 @@ export function ArticleForm({ initialData }: ArticleFormProps) {
       <div style={labelStyle}>
         <label htmlFor="title">Article Title</label>
         <input id="title" {...register("title")} style={inputStyle} />
-        {errors.title && <p style={errorStyle}>{errors.title.message}</p>}
+        {errors.title && <Paragraph style={errorStyle}>{errors.title.message}</Paragraph>}
       </div>
 
       <div style={labelStyle}>
@@ -137,7 +138,7 @@ export function ArticleForm({ initialData }: ArticleFormProps) {
             />
           )}
         />
-        {errors.content && <p style={errorStyle}>{errors.content.message}</p>}
+        {errors.content && <Paragraph style={errorStyle}>{errors.content.message}</Paragraph>}
       </div>
 
       <button type="submit" className="contact-button" disabled={isSubmitting}>

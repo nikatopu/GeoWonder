@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import type { Article } from "@prisma/client";
+import Paragraph from "@/components/atoms/Paragraph";
 
 export const metadata: Metadata = {
   title: "Our Blog",
@@ -23,7 +24,7 @@ export default async function BlogPage() {
   return (
     <div>
       <h1>GeoWonder Blog</h1>
-      <p>Tips, stories, and guides to help you plan your Georgian adventure.</p>
+      <Paragraph>Tips, stories, and guides to help you plan your Georgian adventure.</Paragraph>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
         {articles.map((article) => {
@@ -36,7 +37,7 @@ export default async function BlogPage() {
                 <Link href={`/articles/${article.slug}`}>{article.title}</Link>
               </h2>
               {/* 3. Render the clean excerpt. */}
-              <p>{excerpt}</p>
+              <Paragraph>{excerpt}</Paragraph>
               <Link href={`/articles/${article.slug}`}>Read more →</Link>
             </div>
           );

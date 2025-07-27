@@ -1,3 +1,4 @@
+import Paragraph from "@/components/atoms/Paragraph";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,10 +15,10 @@ export default function ContactPage() {
   return (
     <div>
       <h1>Contact GeoWonder</h1>
-      <p>Have a question or ready to book your trip? Reach out to us!</p>
+      <Paragraph>Have a question or ready to book your trip? Reach out to us!</Paragraph>
 
       <h2>Direct Contact</h2>
-      <p>Click a button below to get in touch instantly.</p>
+      <Paragraph>Click a button below to get in touch instantly.</Paragraph>
 
       <div>
         <a href={`tel:${phoneNumber}`} className="contact-button">
@@ -40,12 +41,12 @@ export default function ContactPage() {
       </div>
 
       <h2>Our Email</h2>
-      <p>
+      <Paragraph>
         You can also send us an email at:{" "}
         <a href="mailto:contact@geowonder.example.com">
           contact@geowonder.example.com
         </a>
-      </p>
+      </Paragraph>
     </div>
   );
 }

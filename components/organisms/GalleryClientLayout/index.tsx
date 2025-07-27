@@ -6,6 +6,7 @@ import type { GalleryImage } from "@prisma/client";
 import Image from "next/image";
 import Masonry from "react-masonry-css";
 import { useInView } from "react-intersection-observer";
+import Paragraph from "@/components/atoms/Paragraph";
 
 // Define the props our component receives
 type GalleryClientLayoutProps = {
@@ -82,11 +83,11 @@ export function GalleryClientLayout({
       {/* This is the trigger element. It's invisible but we track when it's on screen. */}
       {hasMore ? (
         <div ref={ref} style={{ textAlign: "center", padding: "2rem" }}>
-          <p>Loading more...</p>
+          <Paragraph>Loading more...</Paragraph>
         </div>
       ) : (
         <div style={{ textAlign: "center", padding: "2rem" }}>
-          <p>You've reached the end of the gallery.</p>
+          <Paragraph>You've reached the end of the gallery.</Paragraph>
         </div>
       )}
     </div>

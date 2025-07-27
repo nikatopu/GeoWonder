@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Paragraph from "@/components/atoms/Paragraph";
 
 type LoginFormInputs = {
   username: string;
@@ -54,7 +55,7 @@ export default function LoginPage() {
             style={{ display: "block", width: "300px" }}
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <Paragraph style={{ color: "red" }}>{error}</Paragraph>}
         <button type="submit" className="contact-button">
           Login
         </button>

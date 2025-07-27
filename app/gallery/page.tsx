@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import { GalleryClientLayout } from "../../components/organisms/GalleryClientLayout";
+import Paragraph from "@/components/atoms/Paragraph";
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
@@ -23,7 +24,7 @@ export default async function GalleryPage() {
   return (
     <div>
       <h1>Our Gallery</h1>
-      <p>A collection of beautiful moments captured in Georgia.</p>
+      <Paragraph>A collection of beautiful moments captured in Georgia.</Paragraph>
 
       {/* Pass the initial images to the client component, which will handle infinite scroll */}
       <GalleryClientLayout initialImages={initialImages} />

@@ -14,21 +14,6 @@ body {
   min-height: 70vh;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  line-height: 1.6;
-}
-
 a {
   color: #0070f3;
   text-decoration: none;
@@ -36,25 +21,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-/* Simple button styling */
-.contact-button {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  background-color: #0070f3;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-}
-
-.contact-button:hover {
-  background-color: #005bb5;
-  text-decoration: none;
 }
 
 /* Masonry Layout Styles */
@@ -71,7 +37,7 @@ a:hover {
 }
 
 /* Style your items */
-.my-masonry-grid_column > div { 
+.my-masonry-grid_column > div {
   background: #f9f9f9; /* A light background for each item */
   margin-bottom: 20px;
   border-radius: 8px;

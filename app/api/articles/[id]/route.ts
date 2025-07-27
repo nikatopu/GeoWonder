@@ -1,16 +1,15 @@
-// app/api/articles/[id]/route.ts
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import slugify from "slugify";
 
-type RouteContext = {
+type Params = {
   params: {
     id: string;
   };
 };
 
 // PUT - Update article
-export async function PUT(req: NextRequest, { params }: RouteContext) {
+export async function PUT(req: NextRequest, { params }: Params) {
   try {
     const { title, content } = await req.json();
     if (!title || !content) {
@@ -19,7 +18,7 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
 
     const updatedArticle = await prisma.article.update({
       where: { id: params.id },
-      data: { title, content }, // Slug is not updated on edit to preserve links
+      data: { title, content },
     });
 
     return NextResponse.json(updatedArticle);
@@ -32,12 +31,12 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
 }
 
 // DELETE - Delete article
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   try {
     await prisma.article.delete({
       where: { id: params.id },
     });
-    return new NextResponse(null, { status: 204 }); // 204 No Content
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },
