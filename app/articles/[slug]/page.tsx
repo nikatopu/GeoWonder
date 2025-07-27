@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
 
+// This is the most explicit and correct way to type these props.
 type ArticlePageProps = {
   params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 // Create a single, server-side instance of the sanitizer
@@ -35,7 +35,6 @@ export async function generateMetadata({
   const description = article.content
     .replace(/<[^>]*>?/gm, "")
     .substring(0, 160);
-
   return {
     title: article.title,
     description: description.trim() + "...",
@@ -52,7 +51,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const sanitizedContent = DOMPurify.sanitize(article.content);
-
   return (
     <article className="prose">
       <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
