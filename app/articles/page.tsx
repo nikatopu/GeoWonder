@@ -1,6 +1,7 @@
+// app/blog/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getArticles } from "@/lib/articles";
+import prisma from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Our Blog",
@@ -8,8 +9,15 @@ export const metadata: Metadata = {
     "Articles and guides about traveling in Georgia, from local culture to hidden gems.",
 };
 
+// Revalidate this page every hour
+export const revalidate = 3600;
+
 export default async function BlogPage() {
-  const articles = await getArticles();
+  const articles = await prisma.article.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return (
     <div>
@@ -18,11 +26,12 @@ export default async function BlogPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
         {articles.map((article) => (
-          <div key={article.slug}>
+          <div key={article.id}>
             <h2>
               <Link href={`/articles/${article.slug}`}>{article.title}</Link>
             </h2>
-            <p>{article.description}</p>
+            {/* We could add a short description/excerpt field to the model later */}
+            <p>{article.content.substring(0, 150)}...</p>
             <Link href={`/articles/${article.slug}`}>Read more →</Link>
           </div>
         ))}
