@@ -1,6 +1,13 @@
 import { getArticles, getArticleBySlug } from "@/lib/articles";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown"; // if you're using it
+
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 // This generates a page for each article at build time
 export async function generateStaticParams() {
@@ -10,12 +17,10 @@ export async function generateStaticParams() {
   }));
 }
 
-// This generates the metadata for each article page (great for SEO)
+// SEO metadata for each article
 export async function generateMetadata({
   params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug);
 
   if (!article) {
@@ -27,7 +32,6 @@ export async function generateMetadata({
   return {
     title: article.title,
     description: article.description,
-    // You can add more specific OpenGraph data here
     openGraph: {
       title: article.title,
       description: article.description,
@@ -36,10 +40,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+// The actual article page
+export default async function ArticlePage({ params }: PageProps) {
   const article = await getArticleBySlug(params.slug);
 
-  // If no article is found for the slug, show a 404 page
   if (!article) {
     notFound();
   }
@@ -52,8 +56,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       </p>
       <hr style={{ margin: "2rem 0" }} />
       <div>
-        {/* In a real app, you would use a library like 'react-markdown' to render this */}
-        {article.content}
+        <ReactMarkdown>{article.content}</ReactMarkdown>
       </div>
     </article>
   );
