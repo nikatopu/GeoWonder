@@ -1,7 +1,7 @@
 import { getArticles, getArticleBySlug } from "@/lib/articles";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown"; // if you're using it
+import ReactMarkdown from "react-markdown";
 
 type PageProps = {
   params: {
@@ -9,9 +9,10 @@ type PageProps = {
   };
 };
 
-// This generates a page for each article at build time
+// This function can remain async because Next.js supports it,
+// but the internal call is now synchronous.
 export async function generateStaticParams() {
-  const articles = await getArticles();
+  const articles = getArticles(); // REMOVED await
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -21,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const article = await getArticleBySlug(params.slug);
+  const article = getArticleBySlug(params.slug); // REMOVED await
 
   if (!article) {
     return {
@@ -41,8 +42,9 @@ export async function generateMetadata({
 }
 
 // The actual article page
-export default async function ArticlePage({ params }: PageProps) {
-  const article = await getArticleBySlug(params.slug);
+export default function ArticlePage({ params }: PageProps) {
+  // REMOVED async
+  const article = getArticleBySlug(params.slug); // REMOVED await
 
   if (!article) {
     notFound();

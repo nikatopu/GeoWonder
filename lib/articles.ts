@@ -2,9 +2,8 @@
 export interface Article {
   slug: string;
   title: string;
-
   description: string;
-  content: string; // In a real app, this might be Markdown or HTML
+  content: string;
 }
 
 // Mock data for our articles
@@ -35,12 +34,12 @@ const articles: Article[] = [
   },
 ];
 
-// Function to get all articles (for the blog listing page)
-export const getArticles = async (): Promise<Article[]> => {
+// CORRECTED: This function is synchronous, so we remove 'async' and 'Promise'.
+export const getArticles = (): Article[] => {
   return articles;
 };
 
-// Function to get a single article by its slug (for the individual article page)
-export const getArticleBySlug = async (slug: string): Promise<Article | undefined> => {
+// CORRECTED: This function is also synchronous.
+export const getArticleBySlug = (slug: string): Article | undefined => {
   return articles.find((article) => article.slug === slug);
 };
