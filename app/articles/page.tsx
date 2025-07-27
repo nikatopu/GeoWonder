@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import { TArticle } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Our Blog",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function BlogPage() {
-  const articles = await prisma.article.findMany({
+  const articles: TArticle[] = await prisma.article.findMany({
     orderBy: {
       createdAt: "desc",
     },

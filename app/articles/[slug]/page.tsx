@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
+import { TArticle } from "@/lib/types";
 
 // This is the most explicit and correct way to type these props.
 type ArticlePageProps = {
@@ -15,7 +16,9 @@ const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window as any);
 
 export async function generateStaticParams() {
-  const articles = await prisma.article.findMany({ select: { slug: true } });
+  const articles: TArticle[] = await prisma.article.findMany({
+    select: { slug: true },
+  });
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -41,7 +44,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
+export default async function ArticlePage({ params }: Awaited<ArticlePageProps>) {
   const article = await prisma.article.findUnique({
     where: { slug: params.slug },
   });
