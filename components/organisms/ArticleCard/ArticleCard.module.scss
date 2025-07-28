@@ -1,0 +1,63 @@
+.card {
+  display: block; // Makes the entire link area behave like a block
+  text-decoration: none;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #eee;
+  height: 100%; // Ensures all cards in a row have the same height
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+
+    .readMore {
+      color: var(--secondary-color);
+      &::after {
+        transform: translateX(5px);
+      }
+    }
+  }
+}
+
+.content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--title-font);
+  color: var(--text-color);
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.excerpt {
+  font-family: var(--body-font);
+  color: #555;
+  font-size: 0.95rem;
+  flex-grow: 1; // Allows the excerpt to push the "Read More" down
+}
+
+.readMore {
+  margin-top: 1rem;
+  font-family: var(--title-font);
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.2s ease;
+
+  &::after {
+    content: ' →';
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+}

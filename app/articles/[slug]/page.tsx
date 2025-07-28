@@ -3,8 +3,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import createDOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
-import { TArticle } from "@/lib/types";
+import Title from "@/components/atoms/Title";
+import Paragraph from "@/components/atoms/Paragraph";
+import styles from "./Article.module.scss";
 
+// This setup is for the sanitizer
 const window = new JSDOM("").window;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DOMPurify = createDOMPurify(window as any);
@@ -42,7 +45,6 @@ export async function generateMetadata({
   };
 }
 
-/* -------- Article Page Component -------- */
 export default async function ArticlePage({
   params,
 }: {
@@ -54,16 +56,30 @@ export default async function ArticlePage({
     where: { slug },
   });
 
-  if (!article) {
-    notFound();
-  }
+  if (!article) notFound();
 
   const sanitizedContent = DOMPurify.sanitize(article.content);
 
   return (
-    <article>
-      <h1>{article.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
-    </article>
+    <div className={styles.articleContainer}>
+      <header className={styles.articleHeader}>
+        <Title level={1} className={styles.title}>
+          {article.title}
+        </Title>
+        <Paragraph className={styles.meta}>
+          Published on{" "}
+          {new Date(article.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Paragraph>
+      </header>
+
+      <div
+        className={styles.articleContent}
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+      />
+    </div>
   );
 }

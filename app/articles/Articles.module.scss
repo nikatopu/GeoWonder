@@ -1,0 +1,27 @@
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.title {
+  font-family: var(--title-font);
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.intro {
+  font-family: var(--body-font);
+  color: var(--primary-color);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 4rem auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  align-items: stretch; // Makes sure cards in the same row stretch to the same height
+}
