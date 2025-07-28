@@ -17,6 +17,24 @@ const navLinks = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolledUp, setScrolledUp] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY) {
+        setScrolledUp(true); // scrolling up
+      } else {
+        setScrolledUp(false); // scrolling down
+      }
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -39,7 +57,10 @@ export default function Header() {
 
   return (
     <>
-      <header className={styles.header}>
+      <header
+        className={styles.header}
+        style={{ top: scrolledUp ? "0" : "-100px" }}
+      >
         <Link href="/" className={styles.logo} onClick={closeMenu}>
           <Image
             src="/geowonder-text-only.png"

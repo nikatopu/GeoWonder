@@ -17,8 +17,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Needed for z-index to work with the menu */
+  position: sticky;
+  top: 0;
+  left: 0;
   z-index: 100;
+  transition: top 0.3s ease-in-out;
 }
 
 .logo {
