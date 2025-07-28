@@ -5,9 +5,9 @@ import ContactForm from "@/components/organisms/ContactForm"; // Import our new 
 
 // The props type remains the same
 type ContactPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     tour?: string;
-  };
+  }>;
 };
 
 export const metadata: Metadata = {
@@ -17,9 +17,10 @@ export const metadata: Metadata = {
 };
 
 // This is now a clean Server Component
-export default function ContactPage({ searchParams }: ContactPageProps) {
+export default async function ContactPage({ searchParams }: ContactPageProps) {
   // We can safely read searchParams on the server
-  const tourName = searchParams?.tour;
+  const { tour } = (await searchParams) || {};
+  const tourName = tour;
 
   return (
     <div
