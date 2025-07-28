@@ -88,7 +88,12 @@ export function GalleryClientLayout({
               alt={image.altText}
               width={500}
               height={500}
-              style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+                backgroundColor: "lightgray",
+              }}
               priority={index < 4}
             />
           </div>
