@@ -1,5 +1,14 @@
-import Paragraph from "@/components/atoms/Paragraph";
+// app/contact/page.tsx
 import type { Metadata } from "next";
+import Title from "@/components/atoms/Title";
+import ContactForm from "@/components/organisms/ContactForm"; // Import our new Client Component
+
+// The props type remains the same
+type ContactPageProps = {
+  searchParams?: {
+    tour?: string;
+  };
+};
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -7,46 +16,22 @@ export const metadata: Metadata = {
     "Get in touch with GeoWonder to plan your tour. Call us or message us on WhatsApp or Viber.",
 };
 
-// Use a placeholder Georgian phone number. Remember to replace it!
-const phoneNumber = "+995555123456";
-const whatsappNumber = "995555123456"; // For wa.me link, no '+' is needed
+// This is now a clean Server Component
+export default function ContactPage({ searchParams }: ContactPageProps) {
+  // We can safely read searchParams on the server
+  const tourName = searchParams?.tour;
 
-export default function ContactPage() {
   return (
-    <div>
-      <h1>Contact GeoWonder</h1>
-      <Paragraph>Have a question or ready to book your trip? Reach out to us!</Paragraph>
+    <div
+      style={{ maxWidth: "700px", margin: "4rem auto", textAlign: "center" }}
+    >
+      <Title level={1}>Contact GeoWonder</Title>
 
-      <h2>Direct Contact</h2>
-      <Paragraph>Click a button below to get in touch instantly.</Paragraph>
-
-      <div>
-        <a href={`tel:${phoneNumber}`} className="contact-button">
-          Call Us
-        </a>
-        <a
-          href={`https://wa.me/${whatsappNumber}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="contact-button"
-        >
-          Message on WhatsApp
-        </a>
-        <a
-          href={`viber://chat?number=%2B${whatsappNumber}`}
-          className="contact-button"
-        >
-          Message on Viber
-        </a>
-      </div>
-
-      <h2>Our Email</h2>
-      <Paragraph>
-        You can also send us an email at:{" "}
-        <a href="mailto:contact@geowonder.example.com">
-          contact@geowonder.example.com
-        </a>
-      </Paragraph>
+      {/* 
+        Render the Client Component and pass the tourName as a prop.
+        The client component will handle the rest of the logic.
+      */}
+      <ContactForm tourName={tourName} />
     </div>
   );
 }

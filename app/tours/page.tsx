@@ -1,9 +1,9 @@
-// app/tours/page.tsx
 import type { Metadata } from "next";
 import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import Button from "@/components/atoms/Button";
 import TourCard from "@/components/organisms/TourCard";
+import styles from "./Tours.module.scss"; // Import the new styles
 
 export const metadata: Metadata = {
   title: "Our Tours",
@@ -55,34 +55,22 @@ const toursData: Tour[] = [
 // This component is no longer async as it doesn't fetch data
 export default function ToursPage() {
   return (
-    <div>
-      <Title level={1}>Our Tours</Title>
-      <Paragraph>
+    <div className={styles.pageContainer}>
+      <Title level={1} className={styles.title}>
+        Our Tours
+      </Title>
+      <Paragraph className={styles.intro}>
         Discover the best of Georgia with our expertly crafted tour packages.
+        Each journey is designed to be an unforgettable experience.
       </Paragraph>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: "2rem",
-          margin: "2rem 0",
-        }}
-      >
-        {/* We now map over our static toursData array */}
+      <div className={styles.grid}>
         {toursData.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
       </div>
 
-      <section
-        style={{
-          marginTop: "4rem",
-          textAlign: "center",
-          borderTop: "1px solid #eee",
-          paddingTop: "2rem",
-        }}
-      >
+      <section className={styles.ctaSection}>
         <Title level={2}>Looking for something different?</Title>
         <Paragraph>
           We specialize in creating custom tours tailored to your interests and

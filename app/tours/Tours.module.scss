@@ -1,0 +1,38 @@
+.pageContainer {
+  width: 100%;
+  margin: 0 auto;
+  background-color: var(--background-color);
+}
+
+.title {
+  font-family: var(--title-font);
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 0.5em;
+  margin-top: 0;
+  padding-top: 0.5em;
+}
+
+.intro {
+  font-family: var(--body-font);
+  color: var(--text-color);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5em; // Increase the gap for a more spacious feel
+  margin: 2em 0.5em;
+}
+
+.ctaSection {
+  padding: 2em;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 3em;
+  background-color: var(--primary-color);
+}

@@ -1,24 +1,27 @@
-// components/organisms/TourCard/TourCard.module.scss
 .card {
-  border: 1px solid #e0e0e0;
+  background-color: var(--background-color); 
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff;
   display: flex;
   flex-direction: column;
+  border: 1px solid #eee;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
   }
 }
 
-.imageContainer {
-  position: relative;
-  width: 100%;
-  height: 200px; /* Fixed height for the image area */
+.linkWrapper {
+  text-decoration: none;
+  color: inherit; // Makes the link inherit the text color from its parent
+  display: block; // Ensures the link wrapper takes up the full space of the card
+
+  &:hover {
+    text-decoration: none; // Remove underline on hover
+  }
 }
 
 .content {
@@ -29,10 +32,11 @@
 }
 
 .price {
-  margin-top: auto; /* Pushes the price to the bottom */
+  margin-top: auto;
   padding-top: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0070f3;
-  align-self: flex-end; /* Aligns price to the right */
+  font-size: 1.75rem;
+  font-family: var(--title-font);
+  font-weight: 700;
+  color: var(--accent-color);
+  align-self: flex-end;
 }
