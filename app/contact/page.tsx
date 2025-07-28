@@ -1,13 +1,12 @@
-// app/contact/page.tsx
 import type { Metadata } from "next";
 import Title from "@/components/atoms/Title";
-import ContactForm from "@/components/organisms/ContactForm"; // Import our new Client Component
+import ContactForm from "@/components/organisms/ContactForm";
+import styles from "./Contact.module.scss";
 
-// The props type remains the same
+// This is the type for the props received by the Server Page
 type ContactPageProps = {
-  searchParams?: Promise<{
-    tour?: string;
-  }>;
+  // Assuming searchParams can be a promise based on your findings
+  searchParams: Promise<{ tour?: string }>;
 };
 
 export const metadata: Metadata = {
@@ -16,23 +15,29 @@ export const metadata: Metadata = {
     "Get in touch with GeoWonder to plan your tour. Call us or message us on WhatsApp or Viber.",
 };
 
-// This is now a clean Server Component
+// This page MUST be an async Server Component to handle the promise.
 export default async function ContactPage({ searchParams }: ContactPageProps) {
-  // We can safely read searchParams on the server
-  const { tour } = (await searchParams) || {};
-  const tourName = tour;
+  // 1. Await the promise to get the resolved object
+  const resolvedSearchParams = await searchParams;
+
+  // 2. Extract the simple string value
+  const tourName = resolvedSearchParams?.tour;
 
   return (
-    <div
-      style={{ maxWidth: "700px", margin: "4rem auto", textAlign: "center" }}
-    >
-      <Title level={1}>Contact GeoWonder</Title>
+    <div className={styles.pageContainer}>
+      <div className={styles.layout}>
+        <div className={styles.infoPanel}>
+          <Title level={1} className={styles.title}>
+            Let's Plan Your Journey
+          </Title>
 
-      {/* 
-        Render the Client Component and pass the tourName as a prop.
-        The client component will handle the rest of the logic.
-      */}
-      <ContactForm tourName={tourName} />
+          {/* 3. Pass the final string value as a prop to the Client Component */}
+          <ContactForm tourName={tourName} />
+        </div>
+        <div className={styles.visualPanel}>
+          {/* TODO: Add a Google Maps iframe or a beautiful background image here */}
+        </div>
+      </div>
     </div>
   );
 }

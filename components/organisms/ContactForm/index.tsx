@@ -1,21 +1,26 @@
-"use client"; // This is the crucial directive that makes it a Client Component
+"use client"; // This component is strictly for the client
 
-import { useAppContext } from "@/lib/AppContext";
+import { useAppContext } from "@/lib/AppContext"; // Correct path for your context
 import Button from "@/components/atoms/Button";
 import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
+import styles from "@/app/contact/Contact.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
-// This component now receives the tourName as a prop from the Server Component
+// This component now receives a simple string, not a promise.
 type ContactFormProps = {
   tourName?: string;
 };
 
+// The function is now SYNCHRONOUS. No more 'async'.
 export default function ContactForm({ tourName }: ContactFormProps) {
-  // Now it's safe to call the hook here!
+  // It's now safe to call client-side hooks.
   const { contactEmail, contactPhone } = useAppContext();
   const phoneNumber = contactPhone.replace(/\s/g, "");
 
-  // The rest of your logic remains the same
+  // The rest of the logic uses the 'tourName' prop directly.
   const whatsappMessage = tourName
     ? `Hello! I'm interested in the "${tourName}" tour.`
     : "Hello! I'm interested in learning more about your tours.";
@@ -26,33 +31,17 @@ export default function ContactForm({ tourName }: ContactFormProps) {
 
   return (
     <>
-      {/* Conditionally render a personalized heading if a tour was selected */}
       {tourName && (
-        <Title
-          level={2}
-          style={{ color: "var(--primary-color)", marginTop: "2rem" }}
-        >
+        <Title level={2} className={styles.personalizedTitle}>
           Inquiring about the "{tourName}" tour?
         </Title>
       )}
-
-      <Paragraph>
-        Have a question or ready to book your trip? Reach out to us! We're
-        excited to help you plan your Georgian adventure.
+      <Paragraph className={styles.intro}>
+        We're excited to help you plan your Georgian adventure. Choose your
+        preferred way to connect below.
       </Paragraph>
 
-      <div
-        style={{
-          margin: "2rem 0",
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-        }}
-      >
-        <Button as="a" href={`tel:${phoneNumber}`}>
-          Call Us
-        </Button>
+      <div className={styles.actionButtons}>
         <Button
           as="a"
           href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(
@@ -60,14 +49,26 @@ export default function ContactForm({ tourName }: ContactFormProps) {
           )}`}
           target="_blank"
           rel="noopener noreferrer"
+          variant="primary"
+          icon={<FontAwesomeIcon icon={faWhatsapp} />}
         >
           Message on WhatsApp
+        </Button>
+        <Button
+          as="a"
+          href={`tel:${phoneNumber}`}
+          variant="secondary"
+          icon={<FontAwesomeIcon icon={faPhone} />}
+        >
+          Call Us Directly
         </Button>
         <Button
           as="a"
           href={`mailto:${contactEmail}?subject=${encodeURIComponent(
             mailtoSubject
           )}`}
+          variant="secondary"
+          icon={<FontAwesomeIcon icon={faEnvelope} />}
         >
           Send an Email
         </Button>

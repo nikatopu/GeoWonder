@@ -12,8 +12,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const appData: AppContextType = {
   companyName: "GeoWonder",
-  contactEmail: "contact@geowonder.example.com",
-  contactPhone: "+995 555 123 456",
+  contactEmail: "",
+  contactPhone: "",
 };
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
