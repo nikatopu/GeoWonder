@@ -1,8 +1,8 @@
-// app/gallery/page.tsx
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import { GalleryClientLayout } from "../../components/organisms/GalleryClientLayout";
 import Paragraph from "@/components/atoms/Paragraph";
+import styles from "./Gallery.module.scss"; // Import your styles
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
@@ -22,7 +22,7 @@ export default async function GalleryPage() {
   });
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Our Gallery</h1>
       <Paragraph>A collection of beautiful moments captured in Georgia.</Paragraph>
 

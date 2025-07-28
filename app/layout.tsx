@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Header from "@/components/organisms/Header";
 import Footer from "@/components/organisms/Footer";
 import "./global.scss";
+import { AppProvider } from "@/lib/AppContext"; // Import the provider
 
-// Site-wide metadata
 export const metadata: Metadata = {
   title: {
     template: "%s | GeoWonder", // Page titles will be "Page Name | GeoWonder"
@@ -22,9 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main className="main-content">{children}</main>
-        <Footer />
+        <AppProvider>
+          {" "}
+          {/* Wrap everything inside the body with the provider */}
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AppProvider>
       </body>
     </html>
   );
