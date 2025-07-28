@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Header.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Make sure this is imported
 import { faXmark } from "@fortawesome/free-solid-svg-icons"; // Import the 'X' icon
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -40,7 +41,12 @@ export default function Header() {
     <>
       <header className={styles.header}>
         <Link href="/" className={styles.logo} onClick={closeMenu}>
-          GeoWonder
+          <Image
+            src="/geowonder-text-only.png"
+            alt="GeoWonder Logo"
+            width={199}
+            height={25.5}
+          />
         </Link>
 
         {/* Desktop Navigation */}
