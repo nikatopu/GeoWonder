@@ -1,0 +1,113 @@
+.embla {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.emblaViewport {
+  overflow: hidden;
+}
+
+.emblaContainer {
+  display: flex;
+}
+
+.emblaSlide {
+  flex: 0 0 100%; // Each slide takes up 100% of the viewport width
+  min-width: 0;
+  position: relative;
+  height: 350px; // A fixed height for the carousel
+}
+
+// Navigation Buttons
+.emblaButton {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+  border-radius: 50%;
+  background: rgba(248, 244, 233, 0.8); // Background color with opacity
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.2s, color 0.2s;
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--background-color);
+    color: var(--primary-color);
+  }
+}
+
+.emblaButtonPrev {
+  left: 1rem;
+}
+
+.emblaButtonNext {
+  right: 1rem;
+}
+
+// Dots navigation
+.emblaDots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.emblaDot {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    background-color: rgba(248, 244, 233, 0.5);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    content: "";
+    transition: background-color 0.2s;
+  }
+}
+
+.emblaDot--selected::after {
+  background-color: var(--background-color);
+  width: 1rem;
+  height: 1rem;
+}

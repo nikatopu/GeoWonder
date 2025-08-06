@@ -1,5 +1,5 @@
 .card {
-  background-color: var(--background-color); 
+  background-color: var(--background-color);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -31,12 +31,18 @@
   flex-direction: column;
 }
 
-.price {
+.readMore {
   margin-top: auto;
   padding-top: 1rem;
-  font-size: 1.75rem;
   font-family: var(--title-font);
-  font-weight: 700;
-  color: var(--accent-color);
-  align-self: flex-end;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: color 0.2s ease;
+
+  .card:hover & {
+    // When the card is hovered, change the text color
+    color: var(--secondary-color);
+  }
 }

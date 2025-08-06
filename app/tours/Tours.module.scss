@@ -27,6 +27,7 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2.5em; // Increase the gap for a more spacious feel
   margin: 2em 0.5em;
+  padding: 0 1em; // Add padding to the grid container
 }
 
 .ctaSection {
@@ -35,4 +36,5 @@
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 3em;
   background-color: var(--primary-color);
+  
 }
