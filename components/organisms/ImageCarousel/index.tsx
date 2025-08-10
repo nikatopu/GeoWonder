@@ -11,12 +11,17 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
+type Slide = {
+  url: string;
+  title: string;
+  description: string;
+};
+
 type PropType = {
-  slides: string[];
+  slides: Slide[];
   options?: EmblaOptionsType;
 };
 
-// --- Helper Components for Buttons and Dots ---
 const PrevButton = ({
   enabled,
   onClick,
@@ -54,7 +59,7 @@ const Dots = ({
   selectedIndex,
   onClick,
 }: {
-  items: any[];
+  items: unknown[];
   selectedIndex: number;
   onClick: (index: number) => void;
 }) => (
@@ -110,14 +115,18 @@ const ImageCarousel = (props: PropType) => {
     <div className={styles.embla}>
       <div className={styles.emblaViewport} ref={emblaRef}>
         <div className={styles.emblaContainer}>
-          {slides.map((imageUrl, index) => (
+          {slides.map((slide, index) => (
             <div className={styles.emblaSlide} key={index}>
               <Image
-                src={imageUrl}
-                alt={`Tour image ${index + 1}`}
+                src={slide.url}
+                alt={slide.title}
                 fill
                 style={{ objectFit: "cover" }}
               />
+              <div className={styles.slideInfo}>
+                <h4 className={styles.slideTitle}>{slide.title}</h4>
+                <p className={styles.slideDescription}>{slide.description}</p>
+              </div>
             </div>
           ))}
         </div>

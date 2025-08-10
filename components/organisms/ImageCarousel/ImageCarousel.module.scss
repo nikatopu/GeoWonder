@@ -2,6 +2,7 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .emblaViewport {
@@ -15,8 +16,13 @@
 .emblaSlide {
   flex: 0 0 100%; // Each slide takes up 100% of the viewport width
   min-width: 0;
+  width: 100%;
   position: relative;
   height: 350px; // A fixed height for the carousel
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // Navigation Buttons
@@ -110,4 +116,35 @@
   background-color: var(--background-color);
   width: 1rem;
   height: 1rem;
+}
+
+.slideInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1.5em;
+  width: calc(100% - 3em);
+  color: #fff;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.slideTitle {
+  font-family: var(--title-font);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.slideDescription {
+  font-family: var(--body-font);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.9;
 }

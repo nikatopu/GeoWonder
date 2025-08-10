@@ -30,14 +30,14 @@
 .primary {
   background-color: var(--primary-color);
   &:hover {
-    background-color: darken(#6b7d47, 7%);
+    background-color: darken($color: #6b7d47, $amount: 7%);
   }
 }
 
 .secondary {
   background-color: var(--secondary-color);
   &:hover {
-    background-color: darken(#a73e2b, 10%);
+    background-color: darken($color: #a73e2b, $amount: 10%);
   }
 }
 

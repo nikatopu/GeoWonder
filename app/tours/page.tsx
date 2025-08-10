@@ -9,6 +9,12 @@ import Modal from "@/components/atoms/Modal"; // Import the Modal component
 import { useState } from "react";
 import ImageCarousel from "@/components/organisms/ImageCarousel";
 
+type TGalleryImage = {
+  url: string;
+  title: string;
+  description: string;
+};
+
 type Tour = {
   id: string;
   title: string;
@@ -16,7 +22,7 @@ type Tour = {
   shortDescription: string; // Optional for tours without a short description
   longDescription: string;
   price: number; // Use a simple number for static data
-  gallery: string[];
+  gallery: TGalleryImage[];
 };
 
 // Our hardcoded tour data array
@@ -30,10 +36,26 @@ const toursData: Tour[] = [
       "A 3-day adventure through the stunning landscapes of Kazbegi, including a hike to the iconic Gergeti Trinity Church.",
     price: 350,
     gallery: [
-      "/placeholder.jpg",
-      "/placeholder.jpg",
-      "/placeholder.jpg",
-      "/placeholder.jpg",
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 1",
+        description: "Description for Gallery Image 1",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 2",
+        description: "Description for Gallery Image 2",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 3",
+        description: "Description for Gallery Image 3",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 4",
+        description: "Description for Gallery Image 4",
+      },
     ],
   },
   {
@@ -45,7 +67,23 @@ const toursData: Tour[] = [
     longDescription:
       'Discover the birthplace of wine. Visit family-owned cellars, taste unique qvevri wines, and explore the "City of Love," Sighnaghi.',
     price: 250,
-    gallery: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
+    gallery: [
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 1",
+        description: "Description for Gallery Image 1",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 2",
+        description: "Description for Gallery Image 2",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 3",
+        description: "Description for Gallery Image 3",
+      },
+    ],
   },
   {
     id: "3",
@@ -55,7 +93,13 @@ const toursData: Tour[] = [
     longDescription:
       "A full-day immersive tour exploring Tbilisi's ancient Narikala Fortress, Sulphur Baths, vibrant streets, and modern marvels.",
     price: 120,
-    gallery: ["/placeholder.jpg"],
+    gallery: [
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 1",
+        description: "Description for Gallery Image 1",
+      },
+    ],
   },
   {
     id: "4",
@@ -65,7 +109,18 @@ const toursData: Tour[] = [
     longDescription:
       "A full-day immersive tour exploring Tbilisi's ancient Narikala Fortress, Sulphur Baths, vibrant streets, and modern marvels.",
     price: 120,
-    gallery: ["/placeholder.jpg", "/placeholder.jpg"],
+    gallery: [
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 1",
+        description: "Description for Gallery Image 1",
+      },
+      {
+        url: "/placeholder.jpg",
+        title: "Gallery Image 2",
+        description: "Description for Gallery Image 2",
+      },
+    ],
   },
 ];
 
@@ -111,16 +166,7 @@ export default function ToursPage() {
       <Modal isOpen={!!selectedTour} onClose={() => setSelectedTour(null)}>
         {selectedTour && (
           <div>
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "300px",
-                borderRadius: "8px",
-                overflow: "hidden",
-                marginBottom: "1.5rem",
-              }}
-            >
+            <div className={styles.carouselContainer}>
               <ImageCarousel slides={selectedTour.gallery} />
             </div>
             <Title level={2}>{selectedTour.title}</Title>
