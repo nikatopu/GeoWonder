@@ -12,10 +12,10 @@ type TourWithImages = Tour & {
 export default async function EditTourPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const tour = await prisma.tour.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: { galleryImages: true },
   });
 
