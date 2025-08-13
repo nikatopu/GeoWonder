@@ -5,9 +5,9 @@ import { del } from "@vercel/blob";
 // GET a single tour for the edit page
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }>}
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
   try {
     const tour = await prisma.tour.findUnique({
       where: { id: id },
@@ -27,7 +27,7 @@ export async function GET(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
   try {
@@ -69,9 +69,9 @@ export async function DELETE(
 // PUT (Update) a tour. This is the most complex one.
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
   try {
     // Note: For simplicity, this example assumes text data is updated.
     // A full implementation would handle new image uploads, and deleting old ones.
