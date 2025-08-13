@@ -51,7 +51,7 @@
       transition: background-color 0.2s;
 
       &:hover {
-        background-color: darken(#6b7d47, 7%);
+        background-color: adjust(#6b7d47, 7%);
       }
     }
   }
@@ -110,4 +110,32 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
+}
+
+.dynamicFieldset {
+  background: #f9fafb; // A slightly off-white background to distinguish it
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: grid; // Use grid for better control over layout
+  gap: 1.5rem; // Consistent spacing between fields
+  position: relative;
+}
+
+.fieldsetTitle {
+  font-family: var(--title-font);
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: -1.5rem -1.5rem 1rem -1.5rem; // Position at the top, bleeding to edges
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+// Target the remove button specifically within this component
+.removeButton {
+  justify-self: start; // Align the button to the left
+  margin-top: 0; // Remove margin from inline style
+  padding: 8px 16px; // Make it slightly smaller than main buttons
+  font-size: 0.9rem;
 }

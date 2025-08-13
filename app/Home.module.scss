@@ -194,7 +194,7 @@
   margin-top: 1em;
   background-color: var(--secondary-color);
   &:hover {
-    background-color: darken(#a73e2b, 10%);
+    background-color: adjust(#a73e2b, 10%);
   }
 }
 

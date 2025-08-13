@@ -296,6 +296,9 @@ export function TourForm({ initialData }: TourFormProps) {
           <label>Add New Gallery Images</label>
           {fields.map((field, index) => (
             <div key={field.id} className={styles.dynamicFieldset}>
+              {/* Add a title to each new image block for better UX */}
+              <h4 className={styles.fieldsetTitle}>New Image #{index + 1}</h4>
+
               <div className={styles.field}>
                 <label>Image File</label>
                 <input
@@ -308,6 +311,7 @@ export function TourForm({ initialData }: TourFormProps) {
                   </p>
                 )}
               </div>
+
               <div className={styles.field}>
                 <label>Image Title</label>
                 <input
@@ -320,6 +324,7 @@ export function TourForm({ initialData }: TourFormProps) {
                   </p>
                 )}
               </div>
+
               <div className={styles.field}>
                 <label>Image Description</label>
                 <input
@@ -332,16 +337,18 @@ export function TourForm({ initialData }: TourFormProps) {
                   </p>
                 )}
               </div>
+
               <Button
                 type="button"
                 variant="secondary"
                 onClick={() => remove(index)}
-                style={{ justifySelf: "start", marginTop: "1rem" }}
+                className={styles.removeButton} // Use a class instead of inline style
               >
-                Remove Image
+                Remove This Image
               </Button>
             </div>
           ))}
+
           <Button
             type="button"
             variant="primary"

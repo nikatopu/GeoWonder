@@ -57,7 +57,7 @@
     transition: color 0.2s;
 
     &:hover {
-      color: darken(#a73e2b, 10%);
+      color: adjust(#a73e2b, 10%);
     }
   }
 

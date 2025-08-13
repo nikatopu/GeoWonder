@@ -14,20 +14,25 @@ export function TourActions({ tourId }: { tourId: string }) {
       )
     ) {
       try {
-        // We will need to create this API endpoint next
         const response = await fetch(`/api/tours/${tourId}`, {
           method: "DELETE",
         });
 
         if (response.ok) {
           alert("Tour deleted successfully.");
-          router.refresh(); // Refresh the page to update the list
+          router.refresh();
         } else {
-          const error = await response.json();
-          throw new Error(error.message || "Failed to delete the tour.");
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to delete the tour.");
         }
-      } catch (error: any) {
-        alert(`Error: ${error.message}`);
+      } catch (error) {
+        console.error("Delete failed:", error);
+
+        if (error instanceof Error) {
+          alert(`Error: ${error.message}`);
+        } else {
+          alert("An unknown error occurred during deletion.");
+        }
       }
     }
   };
@@ -36,7 +41,7 @@ export function TourActions({ tourId }: { tourId: string }) {
     <div
       style={{
         display: "flex",
-        gap: "10px",
+        gap: "1rem",
         justifyContent: "flex-end",
         alignItems: "center",
       }}
@@ -47,20 +52,18 @@ export function TourActions({ tourId }: { tourId: string }) {
           fontFamily: "var(--title-font)",
           fontWeight: 600,
           textDecoration: "none",
-          color: "#0070f3",
+          color: "var(--primary-color)",
         }}
       >
         Edit
       </Link>
       <Button
         onClick={handleDelete}
+        variant="secondary"
         style={{
-          background: "none",
-          color: "var(--secondary-color)",
-          padding: 0,
+          padding: "6px 12px",
           margin: 0,
-          fontWeight: "normal",
-          boxShadow: "none", // remove shadow for this inline button
+          fontSize: "0.9rem",
         }}
       >
         Delete
