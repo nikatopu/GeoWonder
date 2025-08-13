@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   background-color: var(--background-color);
   border-radius: 8px;
   overflow: hidden;
@@ -46,4 +47,13 @@
     // When the card is hovered, change the text color
     color: var(--secondary-color);
   }
+}
+
+.imageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
 }

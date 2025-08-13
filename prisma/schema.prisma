@@ -42,3 +42,27 @@ model GalleryImage {
 
   @@map("gallery_images")
 }
+
+model Tour {
+  id               String       @id @default(cuid())
+  title            String       @unique
+  shortDescription String
+  longDescription  String       @db.Text
+  featureImageUrl  String       // The main image for the card
+  galleryImages    TourImage[]  // Relation: A Tour has many gallery images
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@map("tours")
+}
+
+model TourImage {
+  id          String @id @default(cuid())
+  url         String
+  title       String
+  description String
+  tour        Tour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId      String
+
+  @@map("tour_images")
+}

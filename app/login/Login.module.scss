@@ -1,0 +1,74 @@
+/* app/login/Login.module.scss */
+
+.pageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: var(--background-color);
+}
+
+.loginBox {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid #eee;
+}
+
+.title {
+  text-align: center;
+  font-family: var(--title-font);
+  color: var(--text-color);
+  margin-bottom: 2rem !important; // Override atom margin if needed
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-family: var(--title-font);
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: var(--title-font);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(107, 125, 71, 0.2);
+  }
+}
+
+.error {
+  color: var(--secondary-color);
+  text-align: center;
+  font-weight: 600;
+  margin-top: -0.5rem; // Bring it closer to the fields
+  margin-bottom: 0;
+}
+
+.loginButton {
+  width: 100%;
+  margin-top: 1rem;
+}

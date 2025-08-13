@@ -1,0 +1,67 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+
+  h1 {
+    margin: 0; // Remove default margin from the Heading atom if needed
+  }
+}
+
+.tableContainer {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden; // Important for keeping border-radius on the table
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; // Removes space between cells
+  font-family: var(--title-font);
+}
+
+.table th,
+.table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table thead {
+  background-color: #f9f9f9;
+
+  th {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+}
+
+.table tbody tr {
+  &:last-child {
+    td {
+      border-bottom: none;
+    }
+  }
+
+  &:hover {
+    background-color: #fafcff;
+  }
+}
+
+.featureImage {
+  width: 80px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.actionsCell {
+  text-align: right;
+}

@@ -1,156 +1,73 @@
 "use client";
 
-import Title from "@/components/atoms/Title";
+import { useState, useEffect } from "react";
+import Heading from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import Button from "@/components/atoms/Button";
 import TourCard from "@/components/organisms/TourCard";
-import styles from "./Tours.module.scss"; // Import the new styles
-import Modal from "@/components/atoms/Modal"; // Import the Modal component
-import { useState } from "react";
+import styles from "./Tours.module.scss";
+import Modal from "@/components/atoms/Modal";
 import ImageCarousel from "@/components/organisms/ImageCarousel";
+import type { Tour, TourImage } from "@prisma/client";
 
-type TGalleryImage = {
-  url: string;
-  title: string;
-  description: string;
+// Define a reusable, clear type for a Tour with its related gallery images.
+// This can be moved to a central types file (e.g., lib/types.ts) later.
+export type TourWithGallery = Tour & {
+  galleryImages: TourImage[];
 };
 
-type Tour = {
-  id: string;
-  title: string;
-  imageUrl: string; // Use a string for static image URLs
-  shortDescription: string; // Optional for tours without a short description
-  longDescription: string;
-  price: number; // Use a simple number for static data
-  gallery: TGalleryImage[];
-};
-
-// Our hardcoded tour data array
-const toursData: Tour[] = [
-  {
-    id: "1",
-    title: "Majestic Caucasus Trek",
-    imageUrl: "/placeholder.jpg", // Example image URL
-    shortDescription: "A breathtaking trek through the Caucasus mountains.",
-    longDescription:
-      "A 3-day adventure through the stunning landscapes of Kazbegi, including a hike to the iconic Gergeti Trinity Church.",
-    price: 350,
-    gallery: [
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 1",
-        description: "Description for Gallery Image 1",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 2",
-        description: "Description for Gallery Image 2",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 3",
-        description: "Description for Gallery Image 3",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 4",
-        description: "Description for Gallery Image 4",
-      },
-    ],
-  },
-  {
-    id: "2",
-    title: "Kakheti Wine & Culture",
-    imageUrl: "/placeholder.jpg", // Example image URL
-    shortDescription:
-      "Explore Georgia's wine region with family-owned cellars.",
-    longDescription:
-      'Discover the birthplace of wine. Visit family-owned cellars, taste unique qvevri wines, and explore the "City of Love," Sighnaghi.',
-    price: 250,
-    gallery: [
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 1",
-        description: "Description for Gallery Image 1",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 2",
-        description: "Description for Gallery Image 2",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 3",
-        description: "Description for Gallery Image 3",
-      },
-    ],
-  },
-  {
-    id: "3",
-    title: "Old & New Tbilisi City Tour",
-    imageUrl: "/placeholder.jpg", // Example image URL
-    shortDescription: "Experience the blend of ancient and modern in Tbilisi.",
-    longDescription:
-      "A full-day immersive tour exploring Tbilisi's ancient Narikala Fortress, Sulphur Baths, vibrant streets, and modern marvels.",
-    price: 120,
-    gallery: [
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 1",
-        description: "Description for Gallery Image 1",
-      },
-    ],
-  },
-  {
-    id: "4",
-    title: "Old & New Tbilisi City Tour",
-    imageUrl: "/placeholder.jpg", // Example image URL
-    shortDescription: "Experience the blend of ancient and modern in Tbilisi.",
-    longDescription:
-      "A full-day immersive tour exploring Tbilisi's ancient Narikala Fortress, Sulphur Baths, vibrant streets, and modern marvels.",
-    price: 120,
-    gallery: [
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 1",
-        description: "Description for Gallery Image 1",
-      },
-      {
-        url: "/placeholder.jpg",
-        title: "Gallery Image 2",
-        description: "Description for Gallery Image 2",
-      },
-    ],
-  },
-];
-
-// This component is no longer async as it doesn't fetch data
 export default function ToursPage() {
-  const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
+  const [tours, setTours] = useState<TourWithGallery[]>([]);
+  const [selectedTour, setSelectedTour] = useState<TourWithGallery | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/tours/public");
+        if (!response.ok) throw new Error("Failed to fetch tours.");
+        const data = await response.json();
+        setTours(data);
+      } catch (error) {
+        console.error(error);
+        // Here you could set an error state to show a message to the user
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTours();
+  }, []);
 
   return (
     <>
       <div className={styles.pageContainer}>
-        <Title level={1} className={styles.title}>
+        <Heading level={1} className={styles.title}>
           Our Tours
-        </Title>
+        </Heading>
         <Paragraph className={styles.intro}>
           Discover the best of Georgia with our expertly crafted tour packages.
           Each journey is designed to be an unforgettable experience.
         </Paragraph>
 
-        <div className={styles.grid}>
-          {toursData.map((tour) => (
-            <TourCard
-              key={tour.id}
-              tour={tour}
-              onClick={() => setSelectedTour(tour)}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <Paragraph className={styles.intro}>Loading tours...</Paragraph>
+        ) : (
+          <div className={styles.grid}>
+            {tours.map((tour) => (
+              <TourCard
+                key={tour.id}
+                tour={tour} // Pass the full tour object; the card will pick the fields it needs
+                onClick={() => setSelectedTour(tour)}
+              />
+            ))}
+          </div>
+        )}
 
         <section className={styles.ctaSection}>
-          <Title level={2}>Looking for something different?</Title>
+          <Heading level={2}>Looking for something different?</Heading>
           <Paragraph>
             We specialize in creating custom tours tailored to your interests
             and schedule.
@@ -162,22 +79,24 @@ export default function ToursPage() {
           </Button>
         </section>
       </div>
-      {/* The Modal for displaying tour details */}
+
       <Modal isOpen={!!selectedTour} onClose={() => setSelectedTour(null)}>
         {selectedTour && (
           <div>
-            <div className={styles.carouselContainer}>
-              <ImageCarousel slides={selectedTour.gallery} />
+            {/* The ImageCarousel now receives the correct galleryImages array */}
+            <ImageCarousel slides={selectedTour.galleryImages} />
+
+            <div style={{ paddingTop: "1.5rem" }}>
+              <Heading level={2}>{selectedTour.title}</Heading>
+              <Paragraph>{selectedTour.longDescription}</Paragraph>
+              <Button
+                as="a"
+                href={`/contact?tour=${encodeURIComponent(selectedTour.title)}`}
+                style={{ marginTop: "1rem" }}
+              >
+                Inquire About This Tour
+              </Button>
             </div>
-            <Title level={2}>{selectedTour.title}</Title>
-            <Paragraph>{selectedTour.longDescription}</Paragraph>
-            <Button
-              as="a"
-              href={`/contact?tour=${encodeURIComponent(selectedTour.title)}`}
-              style={{ marginTop: "1rem" }}
-            >
-              Inquire About This Tour
-            </Button>
           </div>
         )}
       </Modal>
