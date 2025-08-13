@@ -87,7 +87,7 @@ export default function ToursPage() {
             <ImageCarousel slides={selectedTour.galleryImages} />
 
             <div style={{ paddingTop: "1.5rem" }}>
-              <Heading level={2}>{selectedTour.title}</Heading>
+              <Heading level={3}>{selectedTour.title}</Heading>
               <Paragraph>{selectedTour.longDescription}</Paragraph>
               <Button
                 as="a"

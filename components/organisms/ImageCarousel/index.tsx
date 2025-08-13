@@ -124,7 +124,7 @@ const ImageCarousel = (props: PropType) => {
                 style={{ objectFit: "cover" }}
               />
               <div className={styles.slideInfo}>
-                <h4 className={styles.slideTitle}>{slide.title}</h4>
+                <h2 className={styles.slideTitle}>{slide.title}</h2>
                 <p className={styles.slideDescription}>{slide.description}</p>
               </div>
             </div>
