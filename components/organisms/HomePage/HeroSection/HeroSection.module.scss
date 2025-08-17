@@ -1,0 +1,73 @@
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 1rem;
+  overflow: hidden; // Prevents any overflow issues
+
+  // This pseudo-element creates the dark overlay for text readability
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(2, 8, 0, 0.5); // Using your --text color for the overlay
+    z-index: 1;
+  }
+}
+
+// Container for the video element
+.videoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+// The video element itself
+.backgroundVideo {
+  width: 100%;
+  height: 100%;
+  // This is the magic property that makes the video cover the area without distortion
+  object-fit: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 2; // Ensures content is above the overlay and video
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logoContainer {
+  width: 100%;
+
+  img {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
+  }
+}
+
+.tagline {
+  font-family: var(--body-font);
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.75rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); // Slightly stronger shadow for video
+  margin-top: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+}

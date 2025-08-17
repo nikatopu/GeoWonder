@@ -1,0 +1,16 @@
+.section {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.content {
+  max-width: 700px;
+  h2 {
+    color: var(--secondary-color);
+  }
+}
