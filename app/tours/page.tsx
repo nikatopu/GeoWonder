@@ -5,13 +5,12 @@ import Heading from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import Button from "@/components/atoms/Button";
 import TourCard from "@/components/organisms/TourCard";
+import TourCardSkeleton from "@/components/organisms/TourCard/TourCardSkeleton";
 import styles from "./Tours.module.scss";
 import Modal from "@/components/atoms/Modal";
 import ImageCarousel from "@/components/organisms/ImageCarousel";
 import type { Tour, TourImage } from "@prisma/client";
 
-// Define a reusable, clear type for a Tour with its related gallery images.
-// This can be moved to a central types file (e.g., lib/types.ts) later.
 export type TourWithGallery = Tour & {
   galleryImages: TourImage[];
 };
@@ -21,7 +20,7 @@ export default function ToursPage() {
   const [selectedTour, setSelectedTour] = useState<TourWithGallery | null>(
     null
   );
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -33,7 +32,6 @@ export default function ToursPage() {
         setTours(data);
       } catch (error) {
         console.error(error);
-        // Here you could set an error state to show a message to the user
       } finally {
         setIsLoading(false);
       }
@@ -52,19 +50,19 @@ export default function ToursPage() {
           Each journey is designed to be an unforgettable experience.
         </Paragraph>
 
-        {isLoading ? (
-          <Paragraph className={styles.intro}>Loading tours...</Paragraph>
-        ) : (
-          <div className={styles.grid}>
-            {tours.map((tour) => (
-              <TourCard
-                key={tour.id}
-                tour={tour} // Pass the full tour object; the card will pick the fields it needs
-                onClick={() => setSelectedTour(tour)}
-              />
-            ))}
-          </div>
-        )}
+        <div className={styles.grid}>
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <TourCardSkeleton key={index} />
+              ))
+            : tours.map((tour) => (
+                <TourCard
+                  key={tour.id}
+                  tour={tour}
+                  onClick={() => setSelectedTour(tour)}
+                />
+              ))}
+        </div>
 
         <section className={styles.ctaSection}>
           <Heading level={2}>Looking for something different?</Heading>
@@ -83,11 +81,9 @@ export default function ToursPage() {
       <Modal isOpen={!!selectedTour} onClose={() => setSelectedTour(null)}>
         {selectedTour && (
           <div>
-            {/* The ImageCarousel now receives the correct galleryImages array */}
             <ImageCarousel slides={selectedTour.galleryImages} />
-
             <div style={{ paddingTop: "1.5rem" }}>
-              <Heading level={3}>{selectedTour.title}</Heading>
+              <Heading level={2}>{selectedTour.title}</Heading>
               <Paragraph>{selectedTour.longDescription}</Paragraph>
               <Button
                 as="a"

@@ -40,6 +40,11 @@
   border-radius: 12px;
   border: 1px solid rgba(248, 244, 233, 0.2);
 
+  display: grid;
+  grid-template-rows: 60% 15% 25%;
+  align-items: center;
+  justify-content: center;
+
   h3 {
     margin-top: 0;
     color: var(--accent-color);
@@ -49,5 +54,8 @@
 .icon {
   font-size: 2.5rem;
   color: var(--accent-color);
+  margin: auto;
   margin-bottom: 1.5rem;
+  height: 5em;
+  width: auto;
 }

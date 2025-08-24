@@ -2,9 +2,8 @@ import Image from "next/image";
 import Heading from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import styles from "./TourCard.module.scss";
-import type { Tour } from "@prisma/client"; // We only need the base Tour type here
+import type { Tour } from "@prisma/client"; 
 
-// The card only needs a subset of the full tour data to display
 type TourCardProps = {
   tour: Pick<Tour, "title" | "shortDescription" | "featureImageUrl">;
   onClick: () => void;

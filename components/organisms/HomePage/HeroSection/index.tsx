@@ -13,6 +13,8 @@ const HeroSection = () => {
           loop
           muted
           playsInline
+          webkit-playsinline
+          poster="/placeholder.jpg"
           className={styles.backgroundVideo}
         >
           <source src="/videos/georgia-hero.mp4" type="video/mp4" />

@@ -1,15 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
 
 :root {
   --text-color: #020800;
   --background-color: #f8f4e9;
-  --primary-color: #6b7d47;
+  --primary-color: #375e41;
   --secondary-color: #a73e2b;
   --accent-color: #e8b542;
 
-  --body-font: "Playfair Display", serif;
-  --title-font: "Montserrat", sans-serif;
+  --body-font: "Cormorant Garamond", serif;
+  --title-font: "Cinzel", serif;
 }
 
 body {
