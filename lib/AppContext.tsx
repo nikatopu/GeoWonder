@@ -6,6 +6,11 @@ interface AppContextType {
   companyName: string;
   contactEmail: string;
   contactPhone: string;
+  socials: {
+    instagram: string;
+    facebook: string;
+    tiktok: string;
+  };
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -14,6 +19,11 @@ const appData: AppContextType = {
   companyName: "GeoWonder",
   contactEmail: "info@geowonder.tours",
   contactPhone: "+995598420242",
+  socials: {
+    instagram: "https://www.instagram.com/geowonder2025/",
+    facebook: "https://www.facebook.com/profile.php?id=100069692833947",
+    tiktok: "https://www.tiktok.com/@bob201515",
+  },
 };
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {

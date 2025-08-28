@@ -1,0 +1,25 @@
+.container {
+  width: calc(100% - 8em);
+  padding: 2em 4em;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  text-align: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials {
+  display: flex;
+  gap: 0.5em;
+
+  a {
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
