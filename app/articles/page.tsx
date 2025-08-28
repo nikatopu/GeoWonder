@@ -6,7 +6,7 @@ import ArticleCard from "@/components/organisms/ArticleCard";
 import styles from "./Articles.module.scss";
 
 export const metadata: Metadata = {
-  title: "Our Blog",
+  title: "Blog",
   description:
     "Articles and guides about traveling in Georgia, from local culture to hidden gems.",
 };

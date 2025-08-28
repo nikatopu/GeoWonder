@@ -8,7 +8,7 @@ type ParagraphProps = {
 };
 
 const Paragraph = ({ children, className, style }: ParagraphProps) => {
-  const combinedClassName = `${styles.paragraph} ${className || ""}`;
+  const combinedClassName = `${className || ""} ${styles.paragraph}`;
   return (
     <p className={combinedClassName} style={style}>
       {children}

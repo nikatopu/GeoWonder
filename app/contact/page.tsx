@@ -3,10 +3,8 @@ import Title from "@/components/atoms/Title";
 import ContactForm from "@/components/organisms/ContactForm";
 import styles from "./Contact.module.scss";
 
-// This is the type for the props received by the Server Page
 type ContactPageProps = {
-  // Assuming searchParams can be a promise based on your findings
-  searchParams: Promise<{ tour?: string }>;
+  searchParams: Promise<{ tour?: string; image?: string }>;
 };
 
 export const metadata: Metadata = {
@@ -15,13 +13,12 @@ export const metadata: Metadata = {
     "Get in touch with GeoWonder to plan your tour. Call us or message us on WhatsApp or Viber.",
 };
 
-// This page MUST be an async Server Component to handle the promise.
 export default async function ContactPage({ searchParams }: ContactPageProps) {
-  // 1. Await the promise to get the resolved object
   const resolvedSearchParams = await searchParams;
-
-  // 2. Extract the simple string value
   const tourName = resolvedSearchParams?.tour;
+  const tourImage =
+    resolvedSearchParams?.image ||
+    "https://www.geowonder.tours/_next/image?url=https%3A%2F%2Frbucnusnulj41l89.public.blob.vercel-storage.com%2FWhatsApp%2520Image%25202025-07-27%2520at%252016.35.27.jpeg&w=1080&q=75";
 
   return (
     <div className={styles.pageContainer}>
@@ -31,11 +28,14 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             Let's Plan Your Journey
           </Title>
 
-          {/* 3. Pass the final string value as a prop to the Client Component */}
           <ContactForm tourName={tourName} />
         </div>
         <div className={styles.visualPanel}>
-          {/* TODO: Add a Google Maps iframe or a beautiful background image here */}
+          <img
+            src={tourImage}
+            alt="Contact Visual"
+            className={styles.visualImage}
+          />
         </div>
       </div>
     </div>
