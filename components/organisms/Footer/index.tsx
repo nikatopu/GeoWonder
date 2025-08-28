@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import style from "./Footer.module.scss";
 
 export default function Footer() {
-  const { facebookURL, instagramURL, tiktokURL } = useAppContext();
+  const { facebookUrl, instagramUrl, tiktokUrl } = useAppContext();
 
   return (
     <footer className={style.container}>
@@ -21,13 +21,13 @@ export default function Footer() {
       </Paragraph>
 
       <div className={style.socials}>
-        <a href={instagramURL} target="_blank" rel="noopener noreferrer">
+        <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faInstagram} color="black" scale={2.5} />
         </a>
-        <a href={facebookURL} target="_blank" rel="noopener noreferrer">
+        <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faFacebook} color="black" scale={2.5} />
         </a>
-        <a href={tiktokURL} target="_blank" rel="noopener noreferrer">
+        <a href={tiktokUrl} target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faTiktok} color="black" scale={2.5} />
         </a>
       </div>
