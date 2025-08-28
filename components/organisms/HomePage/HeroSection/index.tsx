@@ -13,7 +13,7 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          webkit-playsinline
+          webkit-playsinline="true"
           poster="/placeholder.jpg"
           className={styles.backgroundVideo}
         >

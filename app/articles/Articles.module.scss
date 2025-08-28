@@ -25,3 +25,12 @@
   gap: 2rem;
   align-items: stretch; // Makes sure cards in the same row stretch to the same height
 }
+
+.noArticles {
+  font-family: var(--body-font);
+  color: var(--text-color);
+  text-align: center;
+  width: 100%;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}

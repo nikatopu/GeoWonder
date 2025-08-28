@@ -8,14 +8,15 @@
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   text-decoration: none;
   color: var(--text-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
   }
 
   h3 {

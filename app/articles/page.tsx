@@ -27,10 +27,16 @@ export default async function ArticlesPage() {
         written by our local experts.
       </Paragraph>
 
+      {articles.length === 0 && (
+        <Paragraph className={styles.noArticles}>No articles found.</Paragraph>
+      )}
+
       <div className={styles.grid}>
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
+        {articles &&
+          articles.length > 0 &&
+          articles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
       </div>
     </div>
   );
