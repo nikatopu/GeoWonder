@@ -33,10 +33,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           throw new Error("Failed to fetch settings");
         }
         const data: AppContextType = await response.json();
-        setSettings({
-          companyName: "GeoWonder",
-          ...data,
-        });
+        setSettings(data);
       } catch (error) {
         console.error(error);
       }
