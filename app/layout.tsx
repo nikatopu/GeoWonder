@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/geowonder-full.jpg",
+    icon: "/geowonder-full.jpeg",
   },
 
   openGraph: {
