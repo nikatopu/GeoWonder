@@ -15,7 +15,13 @@ type AppContextType = Settings;
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [settings, setSettings] = useState<AppContextType | null>(null);
+  const [settings, setSettings] = useState<AppContextType>({
+    contactEmail: "",
+    contactPhone: "",
+    instagramUrl: "",
+    facebookUrl: "",
+    tiktokUrl: "",
+  });
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -36,10 +42,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     fetchSettings();
   }, []);
-
-  if (!settings) {
-    return <div>Loading site settings...</div>;
-  }
 
   return <AppContext.Provider value={settings}>{children}</AppContext.Provider>;
 };
