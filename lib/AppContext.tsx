@@ -16,6 +16,8 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [settings, setSettings] = useState<AppContextType>({
+    id: 0,
+    updatedAt: new Date(),
     contactEmail: "",
     contactPhone: "",
     instagramUrl: "",
