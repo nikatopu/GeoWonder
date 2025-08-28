@@ -40,8 +40,6 @@ export const metadata: Metadata = {
     icon: "/geowonder-full.jpg",
   },
 
-  manifest: "/site.webmanifest",
-
   openGraph: {
     title: "GeoWonder - Unforgettable Tours in Georgia",
     description:
