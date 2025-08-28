@@ -5,7 +5,7 @@ import { del } from "@vercel/blob";
 // GET a single tour for the edit page
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ id: string }>}
+  context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
   try {
@@ -66,24 +66,75 @@ export async function DELETE(
   }
 }
 
-// PUT (Update) a tour. This is the most complex one.
 export async function PUT(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: { id: string } }
 ) {
-  const { id } = await context.params;
+  const { id } = context.params;
   try {
-    // Note: For simplicity, this example assumes text data is updated.
-    // A full implementation would handle new image uploads, and deleting old ones.
-    const { title, shortDescription, longDescription } = await req.json();
+    const {
+      title,
+      shortDescription,
+      longDescription,
+      featureImageUrl,
+      galleryImages,
+    } = await req.json();
 
-    const updatedTour = await prisma.tour.update({
-      where: { id: id },
-      data: {
-        title,
-        shortDescription,
-        longDescription,
-      },
+    // Get the current state of the tour from the database
+    const currentTour = await prisma.tour.findUnique({
+      where: { id },
+      include: { galleryImages: true },
+    });
+
+    if (!currentTour) {
+      return NextResponse.json({ error: "Tour not found" }, { status: 404 });
+    }
+
+    // --- Image Cleanup Logic ---
+    const existingImageUrls = currentTour.galleryImages.map((img) => img.url);
+    const submittedImageUrls = galleryImages.map(
+      (img: { url: string }) => img.url
+    );
+    // Find URLs that are in the database but were NOT submitted in the form (i.e., they were deleted)
+    const urlsToDelete = existingImageUrls.filter(
+      (url) => !submittedImageUrls.includes(url)
+    );
+    if (urlsToDelete.length > 0) {
+      await del(urlsToDelete);
+    }
+    // Also delete old feature image if a new one was uploaded
+    if (featureImageUrl !== currentTour.featureImageUrl) {
+      await del(currentTour.featureImageUrl);
+    }
+
+    // --- Database Update Logic using a Transaction ---
+    const updatedTour = await prisma.$transaction(async (tx) => {
+      // 1. Delete all existing gallery images for this tour.
+      // It's simpler to delete and recreate than to figure out which to update/create.
+      await tx.tourImage.deleteMany({ where: { tourId: id } });
+
+      // 2. Update the main tour data and recreate the gallery images with the new data.
+      return tx.tour.update({
+        where: { id },
+        data: {
+          title,
+          shortDescription,
+          longDescription,
+          featureImageUrl,
+          galleryImages: {
+            createMany: {
+              data: galleryImages.map(
+                (img: { url: string; title: string; description: string }) => ({
+                  url: img.url,
+                  title: img.title,
+                  description: img.description,
+                })
+              ),
+            },
+          },
+        },
+        include: { galleryImages: true },
+      });
     });
 
     return NextResponse.json(updatedTour);
