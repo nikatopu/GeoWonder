@@ -66,3 +66,13 @@ model TourImage {
 
   @@map("tour_images")
 }
+
+model Settings {
+  id           Int    @id @default(1) // Use a fixed ID to ensure only one row
+  contactEmail String
+  contactPhone String
+  instagramUrl String
+  facebookUrl  String
+  tiktokUrl    String
+  updatedAt    DateTime @updatedAt
+}

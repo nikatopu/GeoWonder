@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import styles from './AdminLayout.module.scss';
+import Link from "next/link";
+import styles from "./AdminLayout.module.scss";
 
 export default function AdminLayout({
   children,
@@ -15,11 +15,10 @@ export default function AdminLayout({
           <Link href="/admin/articles">Manage Articles</Link>
           <Link href="/admin/tours">Manage Tours</Link>
           <Link href="/admin/gallery">Manage Gallery</Link>
+          <Link href="/admin/settings">Site Settings</Link>
         </nav>
       </aside>
-      <main className={styles.mainContent}>
-        {children}
-      </main>
+      <main className={styles.mainContent}>{children}</main>
     </div>
   );
 }

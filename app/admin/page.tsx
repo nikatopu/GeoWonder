@@ -27,6 +27,10 @@ export default function AdminDashboardPage() {
             Upload and organize photos for the main gallery page.
           </Paragraph>
         </Link>
+        <Link href="/admin/settings" className={styles.card}>
+          <Heading level={3}>Site Settings</Heading>
+          <Paragraph>Configure site-wide settings and preferences.</Paragraph>
+        </Link>
       </div>
     </div>
   );

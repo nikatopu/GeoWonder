@@ -1,0 +1,9 @@
+@import "@/components/organisms/Admin/Form.module.scss";
+.field {
+  width: 100%;
+
+  input {
+    width: 100%;
+    max-width: 40em;
+  }
+}

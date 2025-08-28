@@ -1,39 +1,56 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
+import type { Settings } from "@prisma/client";
 
-interface AppContextType {
-  companyName: string;
-  contactEmail: string;
-  contactPhone: string;
-  socials: {
-    instagram: string;
-    facebook: string;
-    tiktok: string;
-  };
-}
+// Use the Prisma-generated Settings type for our context
+type AppContextType = Settings;
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
-
-const appData: AppContextType = {
-  companyName: "GeoWonder",
-  contactEmail: "info@geowonder.tours",
-  contactPhone: "+995598420242",
-  socials: {
-    instagram: "https://www.instagram.com/geowonder2025/",
-    facebook: "https://www.facebook.com/profile.php?id=100069692833947",
-    tiktok: "https://www.tiktok.com/@bob201515",
-  },
-};
+const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  return <AppContext.Provider value={appData}>{children}</AppContext.Provider>;
+  const [settings, setSettings] = useState<AppContextType | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch("/api/settings/public");
+        if (!response.ok) {
+          throw new Error("Failed to fetch settings");
+        }
+        const data: AppContextType = await response.json();
+        setSettings({
+          companyName: "GeoWonder",
+          ...data,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  if (!settings) {
+    return <div>Loading site settings...</div>;
+  }
+
+  return <AppContext.Provider value={settings}>{children}</AppContext.Provider>;
 };
 
 export const useAppContext = (): AppContextType => {
   const context = useContext(AppContext);
-  if (context === undefined) {
-    throw new Error("useAppContext must be used within an AppProvider");
+  if (context === null) {
+    // This can happen briefly during the initial load, or if the fetch fails
+    throw new Error(
+      "useAppContext must be used within an AppProvider and after settings have loaded"
+    );
   }
   return context;
 };
