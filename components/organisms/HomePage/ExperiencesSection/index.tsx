@@ -6,7 +6,10 @@ export default function ExperiencesSection() {
   return (
     <section className={styles.section}>
       <div className={styles.backgroundImage}>
-        <img src="/placeholder.jpg" alt="Dramatic Landscape" />
+        <img
+          src="https://www.geowonder.tours/_next/image?url=https%3A%2F%2Frbucnusnulj41l89.public.blob.vercel-storage.com%2FWhatsApp%2520Image%25202025-07-27%2520at%252016.42.08%2520%25281%2529.jpeg&w=1080&q=75"
+          alt="Dramatic Landscape"
+        />
       </div>
       <div className={styles.content}>
         <Title level={2} className={styles.dropShadowFilter}>

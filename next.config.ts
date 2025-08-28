@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "26.209.18.191",
       },
+      {
+        protocol: "https",
+        hostname: "www.geowonder.tours",
+      },
     ],
   },
 };
