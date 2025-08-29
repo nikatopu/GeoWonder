@@ -22,13 +22,13 @@ export default function Footer() {
 
       <div className={style.socials}>
         <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faInstagram} color="black" scale={2.5} />
+          <FontAwesomeIcon icon={faInstagram} color="black" />
         </a>
         <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faFacebook} color="black" scale={2.5} />
+          <FontAwesomeIcon icon={faFacebook} color="black" />
         </a>
         <a href={tiktokUrl} target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faTiktok} color="black" scale={2.5} />
+          <FontAwesomeIcon icon={faTiktok} color="black" />
         </a>
       </div>
     </footer>

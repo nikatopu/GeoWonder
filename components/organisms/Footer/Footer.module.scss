@@ -9,14 +9,22 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  p {
+    margin: 0;
+  }
 }
 
 .socials {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 0.5em;
 
   a {
     transition: transform 0.2s ease;
+    font-size: 1.5em;
 
     &:hover {
       transform: scale(1.2);
