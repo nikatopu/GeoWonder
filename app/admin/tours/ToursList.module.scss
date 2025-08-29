@@ -93,3 +93,14 @@
   z-index: 10;
   border-radius: 12px;
 }
+
+.dragHandle {
+  cursor: grab; // Changes the cursor to indicate draggability
+  width: 60px; // Give it a fixed width
+  text-align: center;
+  color: #999;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
