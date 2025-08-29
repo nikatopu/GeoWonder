@@ -48,11 +48,12 @@ model Tour {
   title            String       @unique
   shortDescription String
   longDescription  String       @db.Text
-  featureImageUrl  String       // The main image for the card
-  galleryImages    TourImage[]  // Relation: A Tour has many gallery images
+  featureImageUrl  String
+  galleryImages    TourImage[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
-
+  position         Int          @default(0)
+  
   @@map("tours")
 }
 

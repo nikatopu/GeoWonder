@@ -28,10 +28,57 @@ export function GalleryManager({
   };
 
   const handleUpload = async () => {
-    /* ... (this function remains the same) ... */
+    if (filesToUpload.length === 0) {
+      alert("Please select files to upload.");
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      // Step 1: Upload all files to Vercel Blob and get their URLs.
+      // We use Promise.all to run all upload requests in parallel for speed.
+      const uploadPromises = filesToUpload.map((file) => {
+        return fetch(`/api/upload?filename=${file.name}`, {
+          method: "POST",
+          body: file,
+        }).then((response) => {
+          if (!response.ok) throw new Error(`Failed to upload ${file.name}`);
+          return response.json();
+        });
+      });
+
+      const uploadedBlobs = await Promise.all(uploadPromises);
+
+      // Step 2: Prepare the data for our database.
+      const newImagesData = uploadedBlobs.map((blob) => ({
+        url: blob.url,
+        altText: blob.pathname, // Use the filename as default alt text
+      }));
+
+      // Step 3: Send the batch of new image data to our API to be saved in the database.
+      const dbResponse = await fetch("/api/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newImagesData), // Send an array of objects
+      });
+
+      if (!dbResponse.ok)
+        throw new Error("Failed to save images to the database.");
+
+      alert("All images uploaded successfully!");
+      setFilesToUpload([]); // Clear the selection
+      router.refresh(); // Refresh the page to show new images
+    } catch (error) {
+      console.error(error);
+      alert(
+        "An error occurred during upload. Some files may not have been saved."
+      );
+    } finally {
+      setIsUploading(false);
+    }
   };
 
-  // --- NEW: Handle Delete Function ---
   const handleDelete = async (imageId: string) => {
     if (
       confirm(
