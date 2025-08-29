@@ -6,17 +6,14 @@ $height: calc(100svh - 2 * #{$padding});
   position: fixed;
   top: 0;
   left: 0;
-
   padding: $padding;
-  width: $width;
-  height: $height;
-  max-height: $height;
-  overflow-y: scroll;
-  background: rgba(2, 8, 0, 0.7); // Dark text color with opacity
+  width: 100vw;
+  height: 100svh;
+  overflow-y: auto; // scroll the entire overlay
+  background: rgba(2, 8, 0, 0.7);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
   justify-content: center;
   z-index: 1000;
 }
@@ -25,12 +22,13 @@ $height: calc(100svh - 2 * #{$padding});
   background: var(--background-color);
   color: var(--text-color);
   padding: 2em;
-  margin-top: 10em;
   border-radius: 1em;
   max-width: 50em;
   width: 100%;
+  height: max-content;
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin: $padding 0; // add vertical margin instead of fixed 10em
 }
 
 .closeButton {

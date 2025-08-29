@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 import styles from "./Modal.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -37,7 +38,13 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   }
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <motion.div
+      className={styles.overlay}
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <div className={styles.content} onClick={(e) => e.stopPropagation()}>
         <button
           className={styles.closeButton}
@@ -48,7 +55,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         </button>
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
