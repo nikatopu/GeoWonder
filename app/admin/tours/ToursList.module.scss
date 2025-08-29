@@ -78,7 +78,7 @@
 
 // A simple overlay to show while saving the new order
 .savingOverlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
