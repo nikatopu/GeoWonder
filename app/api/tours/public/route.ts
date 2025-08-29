@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const tours = await prisma.tour.findMany({
       orderBy: {
-        createdAt: "desc",
+        position: "asc",
       },
       include: {
         galleryImages: true,
