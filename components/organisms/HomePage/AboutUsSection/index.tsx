@@ -10,7 +10,7 @@ export default function AboutUsSection() {
     <section className={styles.section}>
       <div className={styles.imageContainer}>
         <Image
-          src="https://www.geowonder.tours/_next/image?url=https%3A%2F%2Frbucnusnulj41l89.public.blob.vercel-storage.com%2FWhatsApp%2520Image%25202025-07-27%2520at%252016.42.02.jpeg&w=1080&q=75"
+          src="/experience.jpg"
           alt="A beautiful Georgian landscape"
           fill
           sizes="50vw"
