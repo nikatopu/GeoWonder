@@ -29,9 +29,6 @@ export function GalleryClientLayout({
     initialImages.length === IMAGES_PER_PAGE
   );
   const { ref, inView } = useInView();
-
-  // --- Step 2: Add state for the lightbox ---
-  // We use the image's index. -1 means the lightbox is closed.
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   const loadMoreImages = async () => {
@@ -46,6 +43,11 @@ export function GalleryClientLayout({
     if (newImages.length < IMAGES_PER_PAGE) {
       setHasMore(false);
     }
+
+    // Filter duplicates
+    setImages((images) => [
+      ...new Map(images.map((item) => [item.id, item])).values(),
+    ]);
   };
 
   useEffect(() => {
@@ -55,10 +57,9 @@ export function GalleryClientLayout({
   }, [inView, hasMore]);
 
   const breakpointColumnsObj = {
-    default: 4,
-    1100: 3,
-    700: 2,
-    500: 1,
+    default: 3,
+    1100: 2,
+    700: 1,
   };
 
   // The lightbox needs a specific array format ({ src: '...' })

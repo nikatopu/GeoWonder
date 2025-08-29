@@ -52,7 +52,9 @@
 .logoContainer {
   width: 100%;
 
-  img {
+  .logo {
+    width: 100%;
+    max-width: 40em;
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
   }
 }

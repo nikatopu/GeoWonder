@@ -24,12 +24,10 @@ const HeroSection = () => {
 
       <div className={styles.content}>
         <div className={styles.logoContainer}>
-          <Image
+          <img
             src="/geowonder-text-only.png"
             alt="GeoWonder Logo"
-            width={434}
-            height={55}
-            priority
+            className={styles.logo}
           />
         </div>
         <Heading level={2} className={styles.tagline}>
