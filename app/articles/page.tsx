@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Articles and guides about traveling in Georgia, from local culture to hidden gems.",
 };
-export const revalidate = 3600;
+export const revalidate = 300; // refresh every 5 minutes instead of an hour
 
 export default async function ArticlesPage() {
   const articles = await prisma.article.findMany({
