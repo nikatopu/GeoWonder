@@ -10,7 +10,7 @@ export default function AboutUsSection() {
     <section className={styles.section}>
       <div className={styles.imageContainer}>
         <Image
-          src="/experience.jpg"
+          src="/geowonder-full.jpeg"
           alt="A beautiful Georgian landscape"
           fill
           sizes="50vw"
