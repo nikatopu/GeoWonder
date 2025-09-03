@@ -16,6 +16,11 @@ $height: calc(100svh - 2 * #{$padding});
   display: flex;
   justify-content: center;
   z-index: 1000;
+
+  @media (max-width: 800px) {
+    width: $width;
+    height: $height;
+  }
 }
 
 .content {
@@ -29,6 +34,10 @@ $height: calc(100svh - 2 * #{$padding});
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   margin: $padding 0; // add vertical margin instead of fixed 10em
+
+  @media (max-width: 800px) {
+    font-size: 0.8em;
+  }
 }
 
 .closeButton {
