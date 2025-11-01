@@ -10,12 +10,12 @@ import HeroSection from "@/components/organisms/HomePage/HeroSection";
 export default function HomePage() {
   return (
     <main className={styles.main}>
-      <HeroSection />
-      <AboutUsSection />
-      <ServicesSection />
-      <ExperiencesSection />
-      <BeyondTourSection />
-      <CtaSection />
+      <HeroSection key={"hero"} />
+      <AboutUsSection key={"about"} />
+      <ServicesSection key={"services"} />
+      <ExperiencesSection key={"experiences"} />
+      <BeyondTourSection key={"beyond"} />
+      <CtaSection key={"cta"} />
     </main>
   );
 }

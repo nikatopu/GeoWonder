@@ -1,10 +1,19 @@
+"use client";
+
 import styles from "./ExperiencesSection.module.scss";
 import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
+import { motion } from "framer-motion";
 
 export default function ExperiencesSection() {
   return (
-    <section className={styles.section}>
+    <motion.section
+      className={styles.section}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true }}
+    >
       <div className={styles.backgroundImage}>
         <img src="/background.jpg" alt="Dramatic Landscape" />
       </div>
@@ -27,6 +36,6 @@ export default function ExperiencesSection() {
           </Paragraph>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -1,22 +1,31 @@
+"use client";
+
 import Image from "next/image";
 import Heading from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import styles from "./TourCard.module.scss";
-import type { Tour } from "@prisma/client"; 
+import type { Tour } from "@prisma/client";
+import { motion } from "framer-motion";
 
 type TourCardProps = {
   tour: Pick<Tour, "title" | "shortDescription" | "featureImageUrl">;
   onClick: () => void;
+  delay?: number;
 };
 
-const TourCard = ({ tour, onClick }: TourCardProps) => {
+const TourCard = ({ tour, onClick, delay = 0 }: TourCardProps) => {
   return (
-    <div
+    <motion.div
       className={styles.card}
       onClick={onClick}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
       role="button"
       tabIndex={0}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, delay }}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true }}
     >
       <div className={styles.imageContainer}>
         <Image
@@ -32,7 +41,7 @@ const TourCard = ({ tour, onClick }: TourCardProps) => {
         <Paragraph>{tour.shortDescription}</Paragraph>
         <div className={styles.readMore}>Read More →</div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -6,6 +6,7 @@ import styles from "./Header.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Make sure this is imported
 import { faXmark } from "@fortawesome/free-solid-svg-icons"; // Import the 'X' icon
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -57,9 +58,12 @@ export default function Header() {
 
   return (
     <>
-      <header
+      <motion.header
         className={styles.header}
         style={{ top: scrolledUp ? "0" : "-100px" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
         <Link href="/" className={styles.logo} onClick={closeMenu}>
           <Image
@@ -89,7 +93,7 @@ export default function Header() {
           <div />
           <div />
         </button>
-      </header>
+      </motion.header>
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (

@@ -1,13 +1,23 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./AboutUsSection.module.scss";
 import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
+import { motion } from "framer-motion";
 
 export default function AboutUsSection() {
   const countYears = new Date().getFullYear() - 2013;
 
   return (
-    <section className={styles.section}>
+    <motion.section
+      className={styles.section}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{duration: 0.75}}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true }}
+    >
       <div className={styles.imageContainer}>
         <Image
           src="/geowonder-full.jpeg"
@@ -27,6 +37,6 @@ export default function AboutUsSection() {
           happiness, and the memories you take home.
         </Paragraph>
       </div>
-    </section>
+    </motion.section>
   );
 }

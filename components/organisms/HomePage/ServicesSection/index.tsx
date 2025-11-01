@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./ServicesSection.module.scss";
 import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
@@ -7,6 +9,7 @@ import {
   faHotel,
   faPlaneDeparture,
 } from "@fortawesome/free-solid-svg-icons";
+import { AnimatePresence, motion } from "framer-motion";
 
 const services = [
   {
@@ -31,7 +34,14 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className={styles.section}>
+    <motion.section
+      className={styles.section}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75 }}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true }}
+    >
       <div className={styles.content}>
         <Title level={2}>Everything You Need, All in One Place.</Title>
         <Paragraph>
@@ -39,14 +49,22 @@ export default function ServicesSection() {
         </Paragraph>
         <div className={styles.grid}>
           {services.map((service) => (
-            <div key={service.title} className={styles.card}>
+            <motion.div
+              key={service.title}
+              className={styles.card}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75 }}
+              exit={{ opacity: 0 }}
+              viewport={{ once: true }}
+            >
               <FontAwesomeIcon icon={service.icon} className={styles.icon} />
               <Title level={3}>{service.title}</Title>
               <Paragraph>{service.description}</Paragraph>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
-};
+}

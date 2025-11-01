@@ -1,12 +1,20 @@
+"use client";
+
 import React from "react";
-import Image from "next/image";
 import styles from "./HeroSection.module.scss";
 import Heading from "@/components/atoms/Title";
 import Button from "@/components/atoms/Button";
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
-    <section className={styles.hero}>
+    <motion.section
+      className={styles.hero}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true }}
+    >
       <div className={styles.videoContainer}>
         <video
           autoPlay
@@ -39,7 +47,7 @@ const HeroSection = () => {
           Begin Your Journey
         </Button>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

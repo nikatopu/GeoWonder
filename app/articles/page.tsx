@@ -4,6 +4,7 @@ import Title from "@/components/atoms/Title";
 import Paragraph from "@/components/atoms/Paragraph";
 import ArticleCard from "@/components/organisms/ArticleCard";
 import styles from "./Articles.module.scss";
+import { AnimatePresence } from "framer-motion";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -34,8 +35,12 @@ export default async function ArticlesPage() {
       <div className={styles.grid}>
         {articles &&
           articles.length > 0 &&
-          articles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
+          articles.map((article, index) => (
+            <ArticleCard
+              key={article.id}
+              article={article}
+              delay={index * 0.15}
+            />
           ))}
       </div>
     </div>

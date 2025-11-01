@@ -13,6 +13,7 @@ import {
   faArrowRight,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { AnimatePresence, motion } from "framer-motion";
 
 type GalleryClientLayoutProps = {
   initialImages: GalleryImage[];
@@ -72,34 +73,41 @@ export function GalleryClientLayout({
 
   return (
     <div>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
-        {images.map((image, index) => (
-          // --- Step 3: Add onClick to open the lightbox ---
-          <div
-            key={image.id}
-            style={{ marginBottom: "1rem", cursor: "pointer" }}
-            onClick={() => setLightboxIndex(index)} // Open lightbox at the clicked image's index
-          >
-            <Image
-              src={image.url}
-              alt={image.altText}
-              width={500}
-              height={500}
-              style={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "8px",
-                backgroundColor: "lightgray",
-              }}
-              priority={index < 4}
-            />
-          </div>
-        ))}
-      </Masonry>
+      <AnimatePresence>
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {images.map((image, index) => (
+            // --- Step 3: Add onClick to open the lightbox ---
+            <motion.div
+              key={image.id}
+              style={{ marginBottom: "1rem", cursor: "pointer" }}
+              onClick={() => setLightboxIndex(index)} // Open lightbox at the clicked image's index
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0 }}
+              viewport={{ once: true }}
+            >
+              <Image
+                src={image.url}
+                alt={image.altText}
+                width={500}
+                height={500}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                  backgroundColor: "lightgray",
+                }}
+                priority={index < 4}
+              />
+            </motion.div>
+          ))}
+        </Masonry>
+      </AnimatePresence>
 
       {/* This is the trigger element for infinite scroll */}
       {hasMore ? (

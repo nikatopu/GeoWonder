@@ -3,6 +3,7 @@ import Header from "@/components/organisms/Header";
 import Footer from "@/components/organisms/Footer";
 import "./global.scss";
 import { AppProvider } from "@/lib/AppContext"; // Import the provider
+import { AnimatePresence } from "framer-motion";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.geowonder.tours"),
@@ -78,11 +79,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AppProvider>
-          {" "}
-          {/* Wrap everything inside the body with the provider */}
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <AnimatePresence mode="wait">
+            {" "}
+            {/* Wrap everything inside the body with the provider */}
+            <Header key={"header"} />
+            <main>{children}</main>
+            <Footer key={"footer"} />
+          </AnimatePresence>
         </AppProvider>
       </body>
     </html>

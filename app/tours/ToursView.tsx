@@ -10,6 +10,7 @@ import styles from "./Tours.module.scss";
 import Modal from "@/components/atoms/Modal";
 import ImageCarousel from "@/components/organisms/ImageCarousel";
 import type { Tour, TourImage } from "@prisma/client";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type TourWithGallery = Tour & {
   galleryImages: TourImage[];
@@ -40,8 +41,14 @@ export default function ToursView() {
   }, []);
 
   return (
-    <>
-      <div className={styles.pageContainer}>
+    <AnimatePresence>
+      <motion.div
+        className={styles.pageContainer}
+        key={"page"}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <Heading level={1} className={styles.title}>
           Our Tours
         </Heading>
@@ -51,17 +58,20 @@ export default function ToursView() {
         </Paragraph>
 
         <div className={styles.grid}>
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, index) => (
-                <TourCardSkeleton key={index} />
-              ))
-            : tours.map((tour) => (
-                <TourCard
-                  key={tour.id}
-                  tour={tour}
-                  onClick={() => setSelectedTour(tour)}
-                />
-              ))}
+          <AnimatePresence>
+            {isLoading
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <TourCardSkeleton key={index} />
+                ))
+              : tours.map((tour, index) => (
+                  <TourCard
+                    key={tour.id}
+                    tour={tour}
+                    onClick={() => setSelectedTour(tour)}
+                    delay={0.15 * index}
+                  />
+                ))}
+          </AnimatePresence>
         </div>
 
         <section className={styles.ctaSection}>
@@ -76,9 +86,13 @@ export default function ToursView() {
             Plan a Custom Tour
           </Button>
         </section>
-      </div>
+      </motion.div>
 
-      <Modal isOpen={!!selectedTour} onClose={() => setSelectedTour(null)}>
+      <Modal
+        isOpen={!!selectedTour}
+        onClose={() => setSelectedTour(null)}
+        key={"modal"}
+      >
         {selectedTour && (
           <div>
             <ImageCarousel slides={selectedTour.galleryImages} />
@@ -101,6 +115,6 @@ export default function ToursView() {
           </div>
         )}
       </Modal>
-    </>
+    </AnimatePresence>
   );
 }
